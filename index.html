@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopee IA App</title>
+    <link rel="manifest" href="manifest.json">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-4">
+    <div class="max-w-md mx-auto">
+        <header class="bg-[#ee4d2d] text-white p-6 rounded-xl shadow-lg mb-6 text-center">
+            <h1 class="text-2xl font-bold italic">Shopee IA Miner 🚀</h1>
+        </header>
+
+        <div class="bg-white p-6 rounded-xl shadow-md mb-6">
+            <input type="text" id="prodNome" placeholder="Nome do Produto" class="w-full mb-3 p-3 border rounded-lg">
+            <input type="text" id="prodLink" placeholder="Seu Link de Afiliado" class="w-full mb-3 p-3 border rounded-lg">
+            <button id="btnSalvar" class="w-full bg-[#ee4d2d] text-white font-bold py-3 rounded-lg hover:bg-orange-700 transition">
+                SALVAR NA MINHA LISTA
+            </button>
+        </div>
+
+        <h2 class="font-bold text-gray-700 mb-4">Meus Achadinhos:</h2>
+        <div id="listaProdutos" class="space-y-3">
+            </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        // CONFIGURAÇÃO DO SEU FIREBASE (ATUALIZADA)
+        const firebaseConfig = {
+            apiKey: "AIzaSyC3HutqFhqnc8KtdmwDUDl3UaNYs_grQMc",
+            authDomain: "shopee-77708.firebaseapp.com",
+            projectId: "shopee-77708",
+            storageBucket: "shopee-77708.firebasestorage.app",
+            messagingSenderId: "174296367346",
+            appId: "1:174296367346:web:e96f4378ce01230fcbd06b",
+            measurementId: "G-B5GSMMCEWF"
+        };
+
+        // Inicializar Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // FUNÇÃO PARA SALVAR
+        const salvarNoFirebase = async () => {
+            const nome = document.getElementById('prodNome').value;
+            const link = document.getElementById('prodLink').value;
+
+            if (!nome || !link) {
+                alert("Por favor, preencha o nome e o link!");
+                return;
+            }
+
+            try {
+                await addDoc(collection(db, "achadinhos"), { 
+                    nome: nome, 
+                    link: link, 
+                    data: new Date() 
+                });
+                alert("Produto salvo com sucesso!");
+                document.getElementById('prodNome').value = "";
+                document.getElementById('prodLink').value = "";
+            } catch (e) { 
+                console.error("Erro ao salvar: ", e);
+                alert("Erro ao salvar. Verifique as Regras do Database.");
+            }
+        };
+
+        // Atribuir evento ao botão
+        document.getElementById('btnSalvar').addEventListener('click', salvarNoFirebase);
+
+        // FUNÇÃO PARA LER EM TEMPO REAL (Ordenado por data)
+        const q = query(collection(db, "achadinhos"), orderBy("data", "desc"));
+        onSnapshot(q, (snapshot) => {
+            const lista = document.getElementById('listaProdutos');
+            lista.innerHTML = "";
+            snapshot.forEach(doc => {
+                const item = doc.data();
+                lista.innerHTML += `
+                    <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-orange-500">
+                        <p class="font-bold text-gray-800">${item.nome}</p>
+                        <a href="${item.link}" class="text-sm text-blue-500 underline" target="_blank">Ver Link de Afiliado</a>
+                    </div>`;
+            });
+        });
+    </script>
+</body>
+</html>
