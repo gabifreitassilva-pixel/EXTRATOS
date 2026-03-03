@@ -1,10 +1,9 @@
 {
-  "name": "Shopee Post App",
+  "name": "Shopee Post Manager",
   "short_name": "ShopeeApp",
-  "description": "Gerenciador de Postagens para Afiliados",
   "start_url": "index.html",
   "display": "standalone",
-  "background_color": "#f8f9fa",
+  "background_color": "#f0f2f5",
   "theme_color": "#ee4d2d",
   "icons": [
     {
