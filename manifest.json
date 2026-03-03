@@ -1,13 +1,14 @@
 {
-  "name": "Shopee IA Miner",
-  "short_name": "ShopeeIA",
-  "start_url": "index.html",
+  "name": "Shopee Post Manager",
+  "short_name": "ShopeeApp",
+  "description": "Gerenciador de Postagens para Afiliados Shopee",
+  "start_url": "gerenciador_shopee_v3.html",
   "display": "standalone",
-  "background_color": "#ee4d2d",
+  "background_color": "#ffffff",
   "theme_color": "#ee4d2d",
   "icons": [
     {
-      "src": "https://cdn-icons-png.flaticon.com/512/5968/5968299.png",
+      "src": "https://cdn-icons-png.flaticon.com/512/1162/1162499.png",
       "sizes": "512x512",
       "type": "image/png"
     }
