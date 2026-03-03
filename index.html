@@ -27,10 +27,10 @@
         .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
         .status-badge { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: bold; }
         .post-date { font-size: 10px; color: #999; }
-        textarea { width: 100%; height: 100px; padding: 10px; border: 1px solid #ddd; border-radius: 10px; font-size: 14px; background: #fafafa; resize: none; outline: none; }
-        .char-info { text-align: right; font-size: 11px; color: #888; margin-bottom: 8px; margin-top: 4px; }
+        textarea { width: 100%; height: 110px; padding: 10px; border: 1px solid #ddd; border-radius: 10px; font-size: 14px; background: #fafafa; resize: none; outline: none; }
+        .char-info { text-align: right; font-size: 11px; color: #888; margin-top: 4px; }
         .limit-red { color: #d9534f; font-weight: bold; }
-        .btn-group { display: flex; flex-direction: column; gap: 8px; }
+        .btn-group { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
         .btn-action { border: none; padding: 14px; border-radius: 10px; font-weight: bold; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; }
         .btn-copy { background: #333; color: white; }
         .btn-copy.success { background: #28a745; }
@@ -66,25 +66,37 @@
             Array.from(e.target.files).forEach(file => {
                 Papa.parse(file, { header: true, skipEmptyLines: true, complete: function(r) {
                     const newItems = r.data.map(item => {
-                        const n = item['Item Name'] || "";
-                        const l = item['Offer Link'] || item['Product Link'] || "";
-                        const t = n.toLowerCase().replace(/[^a-z ]/g, "").split(' ').filter(w => w.length > 3).slice(0, 3).map(w => "#"+w).join(" ") + " #shopee #promo";
-                        const limit = 150 - l.length - t.length - 10;
-                        const shortN = n.length > limit ? n.substring(0, limit-3) + "..." : n;
-                        return { uid: Date.now() + Math.random(), posted: false, date: '', postText: `✨ ${shortN}\n\n🔗 ${l}\n\n${t}`, photoLink: item['Product Link'] };
+                        const fullName = item['Item Name'] || "";
+                        const link = item['Offer Link'] || item['Product Link'] || "";
+                        
+                        // RESUMO: Pega as primeiras 6 palavras ou 60 caracteres
+                        let shortName = fullName.split(' ').slice(0, 6).join(' ');
+                        if(shortName.length > 60) shortN = shortName.substring(0, 60) + "...";
+
+                        // HASHTAGS: Pega as 4 palavras mais importantes
+                        const tags = fullName.toLowerCase().replace(/[^a-z ]/g, "").split(' ')
+                                     .filter(w => w.length > 3).slice(0, 4)
+                                     .map(w => "#"+w).join(" ") + " #shopee #oferta";
+
+                        const postContent = `✨ ${shortName}\n\n🔗 ${link}\n\n${tags}`;
+                        
+                        return { uid: Date.now() + Math.random(), posted: false, date: '', postText: postContent, photoLink: item['Product Link'] };
                     });
                     products = [...products, ...newItems]; save(); render();
                 }});
             });
+            this.value = '';
         });
 
         function switchTab(t) { currentTab = t; document.getElementById('tab-pending').classList.toggle('active', t==='pending'); document.getElementById('tab-posted').classList.toggle('active', t==='posted'); render(); }
+        
         function togglePosted(uid) {
             const i = products.findIndex(p => p.uid === uid);
             products[i].posted = !products[i].posted;
             products[i].date = products[i].posted ? new Date().toLocaleString('pt-BR', {day:'2-digit', month:'2-digit', hour:'2-digit', minute:'2-digit'}) : '';
             save(); render();
         }
+
         function render() {
             const list = document.getElementById('list-container'); list.innerHTML = '';
             const posted = products.filter(p => p.posted).length;
@@ -93,6 +105,7 @@
             document.getElementById('count-pending').innerText = products.length - posted;
             const filtered = products.filter(p => currentTab === 'posted' ? p.posted : !p.posted);
             if(currentTab === 'posted') filtered.reverse();
+            
             filtered.forEach(item => {
                 const card = document.createElement('div');
                 card.className = `product-card ${item.posted ? 'posted-style' : ''}`;
