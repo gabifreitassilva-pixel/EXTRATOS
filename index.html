@@ -67,8 +67,8 @@
 
         .status-badge {
             display: flex;
-            align-items: center;
-            gap: 6px;
+            flex-direction: column;
+            gap: 2px;
             font-size: 13px;
             color: #64748b;
             margin-top: 2px;
@@ -80,6 +80,8 @@
             background-color: #10b981;
             border-radius: 50%;
             box-shadow: 0 0 8px #10b981;
+            display: inline-block;
+            margin-right: 4px;
         }
 
         .user-tag {
@@ -777,9 +779,15 @@
             <div class="title-group">
                 <h1>GESTÃO DE EXTRATOS <span>| DASHBOARD CLOUD</span></h1>
                 <div class="status-badge">
-                    <span class="dot"></span> Sincronizado na Nuvem 
-                    <span style="margin: 0 5px; color: #cbd5e1;">|</span> 
-                    👤 UTILIZADOR: <span class="user-tag" id="userTag">A ligar...</span>
+                    <div><span class="dot"></span> Sincronizado na Nuvem</div>
+                    <div style="font-size: 11px; color:#a855f7; font-weight:700;" id="presenceList">👥 Online: A carregar...</div>
+                    <div style="font-size: 12px; margin-top: 2px;">
+                        👤 Operador: <span class="user-tag" id="operadorBadge" style="cursor:pointer;" onclick="forcarNovaIdentificacao()">Definir Nome</span>
+                    </div>
+                    <!-- Elemento discreto para apresentar o ID de Ligação do Firebase para diagnóstico e consistência -->
+                    <div style="font-size: 10px; color: #94a3b8; margin-top: 2px;">
+                        ID Ligação: <span id="userTag" style="font-family: monospace;">A ligar...</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -853,6 +861,26 @@
 
 
     <!-- ================= MODALS & SLIDE PANELS ================= -->
+
+    <!-- MODAL DE IDENTIFICAÇÃO DO OPERADOR -->
+    <div class="modal-overlay" id="modalIdentificarOperador" style="z-index: 1100;">
+        <div class="modal-box" style="width: 450px;">
+            <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 15px;">
+                <span style="font-size: 28px;">👤</span>
+                <div>
+                    <h2 style="color: #2e1065; font-weight: 800; font-size: 20px;">Identificação do Operador</h2>
+                    <p style="color: #64748b; font-size: 13px;">Insira o seu nome ou alcunha para registar quem realiza os disparos e as baixas.</p>
+                </div>
+            </div>
+            <div class="form-group" style="margin-top: 15px;">
+                <label>O seu Nome/Alcunha:</label>
+                <input type="text" id="operadorNomeInput" class="form-control" placeholder="Ex: Marcio, Lucas, João">
+            </div>
+            <div class="modal-footer" style="justify-content: flex-end; margin-top: 15px;">
+                <button class="btn-primary" style="padding: 12px 25px;" onclick="salvarOperadorIdentificacao()">Confirmar Entrada 🚀</button>
+            </div>
+        </div>
+    </div>
 
     <!-- MODAL PRINCIPAL: PREPARAR ENVIO COM SELEÇÃO DE MODELOS E MESES -->
     <div class="modal-overlay" id="modalPrepararEnvio">
@@ -1116,6 +1144,7 @@
         // State locais sincronizados em tempo real com localStorage de alta performance
         let clientes = [];
         let modelos = [];
+        let operadorNome = localStorage.getItem('gestao_extratos_operador') || "";
 
         // Variáveis de Controlo de Fluxo Interno
         let selectedClientForSend = null;
@@ -1252,6 +1281,45 @@
             document.getElementById('manualForm').style.display = 'block';
         };
 
+        // ================= FLUXO DE IDENTIFICAÇÃO E PRESENÇA =================
+
+        // Forçar nova identificação de operador
+        window.forcarNovaIdentificacao = function() {
+            document.getElementById('operadorNomeInput').value = operadorNome;
+            window.openModal('modalIdentificarOperador');
+        };
+
+        // Salvar operador definido
+        window.salvarOperadorIdentificacao = function() {
+            const nome = document.getElementById('operadorNomeInput').value.trim();
+            if (!nome) {
+                window.showToast("Por favor, introduza o seu nome para continuar!", "error");
+                return;
+            }
+            operadorNome = nome;
+            localStorage.setItem('gestao_extratos_operador', operadorNome);
+            document.getElementById('operadorBadge').innerText = operadorNome;
+            window.closeModal('modalIdentificarOperador');
+            window.showToast(`Operador definido como: ${operadorNome}`);
+            atualizarStatusPresenca();
+            atualizarUI();
+        };
+
+        // Enviar atividade periódica de presenças para a nuvem
+        async function atualizarStatusPresenca() {
+            const user = auth.currentUser;
+            if (!user || !operadorNome) return;
+            
+            try {
+                await db.collection('artifacts/' + appId + '/public/data/presencas').doc(user.uid).set({
+                    nome: operadorNome,
+                    ultimoAcesso: Date.now()
+                });
+            } catch(e) {
+                console.error("Erro ao reportar presencas: ", e);
+            }
+        }
+
         // ================= INSTANCIAÇÃO FIRESTORE E AUTENTICAÇÃO ANÓNIMA =================
 
         const initAuthentication = async () => {
@@ -1271,10 +1339,28 @@
 
         auth.onAuthStateChanged((user) => {
             if (user) {
-                document.getElementById('userTag').innerText = user.uid;
+                // Correção do erro TypeError: verificação de segurança no elemento 'userTag' antes de definir o seu valor
+                const userTagEl = document.getElementById('userTag');
+                if (userTagEl) {
+                    userTagEl.innerText = user.uid;
+                }
                 sincronizarDadosNuvem();
+                
+                // Tratar identificação inicial de operador
+                if (!operadorNome) {
+                    window.openModal('modalIdentificarOperador');
+                } else {
+                    document.getElementById('operadorBadge').innerText = operadorNome;
+                    atualizarStatusPresenca();
+                }
+
+                // Intervalo de reportar presenca (a cada 30 segs)
+                setInterval(atualizarStatusPresenca, 30000);
             } else {
-                document.getElementById('userTag').innerText = "Não autenticado";
+                const userTagEl = document.getElementById('userTag');
+                if (userTagEl) {
+                    userTagEl.innerText = "Não autenticado";
+                }
             }
         });
 
@@ -1288,13 +1374,8 @@
                 snapshot.forEach((doc) => {
                     tempClientes.push({ id: doc.id, ...doc.data() });
                 });
-                
-                if (tempClientes.length > 0) {
-                    clientes = tempClientes;
-                    atualizarUI();
-                } else {
-                    popularBaseDemonstracao();
-                }
+                clientes = tempClientes;
+                atualizarUI();
             }, (error) => {
                 console.error("Erro na leitura de clientes em tempo real:", error);
             });
@@ -1315,21 +1396,25 @@
             }, (error) => {
                 console.error("Erro na leitura de modelos em tempo real:", error);
             });
-        }
 
-        // Popular dados caso a nuvem esteja vazia pela primeira vez
-        async function popularBaseDemonstracao() {
-            const mockClientes = [
-                { razao: "MARCIO JAROSLAVSKY LTDA", cnpj: "44.754.457/0001-67", socio: "Marcio Jaroslavsky", whatsapp: "5511999999999", meses: "Janeiro, Fevereiro", ultimaCobranca: "Nunca", status: "Cadastrado" },
-                { razao: "MARE MOREIRA SERVICOS DE DESIGN LTDA", cnpj: "47.927.626/0001-01", socio: "Mariana Moreira", whatsapp: "https://chat.whatsapp.com/GgG4f8D9a21B3c", meses: "Nenhum", ultimaCobranca: "Nunca", status: "Pendente" },
-                { razao: "MARINALVA VIANA DA SILVA", cnpj: "27.628.622/0001-15", socio: "Responsável", whatsapp: "5511999999999", meses: "Nenhum", ultimaCobranca: "Nunca", status: "Cadastrado" }
-            ];
-            clientes = [];
-            for (const cli of mockClientes) {
-                const docRef = await db.collection('artifacts/' + appId + '/public/data/clientes').add(cli);
-                clientes.push({ id: docRef.id, ...cli });
-            }
-            atualizarUI();
+            // Escuta Presenças Ativas / Usuários Online em Tempo Real (RULE 1, 2)
+            db.collection('artifacts/' + appId + '/public/data/presencas').onSnapshot((snapshot) => {
+                const limiteAtividade = Date.now() - 120000; // Últimos 2 minutos
+                let nomesOnline = [];
+                
+                snapshot.forEach((doc) => {
+                    const dados = doc.data();
+                    if (dados.ultimoAcesso && dados.ultimoAcesso > limiteAtividade) {
+                        nomesOnline.push(dados.nome || "Anónimo");
+                    }
+                });
+
+                // Remove duplicados e exibe na UI
+                const nomesUnicos = [...new Set(nomesOnline)];
+                document.getElementById('presenceList').innerText = `👥 Online agora: ${nomesUnicos.join(', ') || 'Ninguém'}`;
+            }, (error) => {
+                console.error("Erro ao sincronizar presenças online:", error);
+            });
         }
 
         async function popularModelosDemonstracao() {
@@ -1452,7 +1537,7 @@
                     if(!linha.trim()) continue;
 
                     const cnpjRegex = /(\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2})|(\d{14})/;
-                    const matchCnpj = linha.match(cnpjRegex);
+                    const matchCnpj = inline.match(cnpjRegex);
                     
                     let cnpj = matchCnpj ? matchCnpj[0] : "CNPJ não localizado";
                     let razao = linha.replace(cnpj, '').replace(/[\r\n]+/g, ' ').trim();
@@ -1475,7 +1560,6 @@
                     const tempId = 'temp_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
                     clientes.push({ id: tempId, ...novoCliente });
 
-                    // Grava instantaneamente no localStorage local
                     try {
                         localStorage.setItem('gestao_extratos_clientes', JSON.stringify(clientes));
                     } catch(e){}
@@ -1486,20 +1570,15 @@
                             console.log("Cliente sincronizado na nuvem: ", docRef.id);
                         })
                         .catch((err) => {
-                            console.warn("Sem ligação instantânea à nuvem, mas salvo localmente:", err);
+                            console.warn("Sem ligação à nuvem:", err);
                         });
 
                     adicionados++;
                 }
 
-                // Atualiza o ecrã imediatamente sem latência!
                 atualizarUI();
-
                 document.getElementById('massImportInput').value = '';
-                
-                // --- FECHO AUTOMÁTICO DO PAINEL LATERAL ---
                 window.toggleSlidePanel(false); 
-
                 window.showToast(`${adicionados} clientes processados e salvos localmente e na nuvem!`);
             } catch (error) {
                 console.error("Erro ao importar em massa:", error);
@@ -1527,7 +1606,7 @@
                 };
 
                 if (currentEditingClientId) {
-                    // Atualização local instantânea
+                    // Atuallização local instantânea
                     const idx = clientes.findIndex(c => c.id == currentEditingClientId);
                     if (idx !== -1) {
                         clientes[idx] = { ...clientes[idx], ...clienteDados };
@@ -1547,7 +1626,7 @@
                         ...clienteDados,
                         meses: "Nenhum",
                         ultimaCobranca: "Nunca",
-                        status: "Cadastrado"
+                        status: "Pendente" // Começa como Pendente para exibir tracinho se nada for cobrado
                     };
                     clientes.push({ id: tempId, ...novoCli });
                     atualizarUI();
@@ -1565,7 +1644,6 @@
                 document.getElementById('manualForm').style.display = 'none';
                 currentEditingClientId = null; 
 
-                // Fecha o painel lateral automaticamente para focar no ecrã principal
                 window.toggleSlidePanel(false);
 
             } catch (error) {
@@ -1614,6 +1692,7 @@
             let clientesFiltrados = clientes;
             if (currentFilterStatus !== 'TODOS') {
                 if (currentFilterStatus === 'Cadastrado') {
+                    // Trata status de novos cadastros / pendentes de cobrança
                     clientesFiltrados = clientes.filter(c => c.status === 'Cadastrado' || c.status === 'Pendente');
                 } else {
                     clientesFiltrados = clientes.filter(c => c.status === currentFilterStatus);
@@ -1639,16 +1718,31 @@
                     const tr = document.createElement('tr');
                     tr.className = 'company-row';
 
+                    // === NOVA REGRA DE STATUS GERAL DO CARD TODOS COM CONTROLO DE HISTÓRICO DE OPERADORES ===
                     let statusGeralCell = "—"; 
                     if (cli.status === "Cobrado") {
-                        statusGeralCell = `<span class="badge-type" style="background: #eff6ff; color: #1d4ed8; font-weight:800; border: 1px solid #dbeafe;">Cobrado em ${cli.ultimaCobranca}</span>`;
+                        statusGeralCell = `<span class="badge-type" style="background: #eff6ff; color: #1d4ed8; font-weight:800; border: 1px solid #dbeafe;">Cobrado</span>`;
                     } else if (cli.status === "Recebido") {
                         statusGeralCell = `<span class="badge-type" style="background: #ecfdf5; color: #047857; font-weight:800; border: 1px solid #a7f3d0;">Recebido</span>`;
+                    }
+
+                    // Detalhe de Rastreabilidade Amigável
+                    let historicoCobranca = "—";
+                    if (cli.ultimaCobranca && cli.ultimaCobranca !== "Nunca") {
+                        historicoCobranca = cli.ultimaCobranca;
+                        if (cli.cobradoPor) {
+                            historicoCobranca += ` por ${cli.cobradoPor}`;
+                        }
+                    }
+
+                    if (cli.status === "Recebido" && cli.ultimaBaixa) {
+                        historicoCobranca += `<br><span style="color: #059669; font-size:12px; font-weight:700;">Baixado: ${cli.ultimaBaixa}</span>`;
                     }
 
                     const isCobrado = (cli.status === "Cobrado" || cli.status === "Recebido");
                     const isRecebido = (cli.status === "Recebido");
 
+                    // Botões dinâmicos de cores baseadas nas ações realizadas
                     const zapBtnClass = isCobrado ? "btn-whatsapp-send action-done" : "btn-whatsapp-send";
                     const recBtnClass = isRecebido ? "btn-mark-received action-done" : "btn-mark-received";
 
@@ -1673,7 +1767,7 @@
                             </span>
                         </td>
                         <td>
-                            <div style="font-size: 13px; color: #475569;">${cli.ultimaCobranca}</div>
+                            <div style="font-size: 13px; color: #475569; line-height:1.4;">${historicoCobranca}</div>
                         </td>
                         <td>
                             ${statusGeralCell}
@@ -1690,7 +1784,7 @@
 
             panelClientsList.innerHTML = '';
             if(clientes.length === 0) {
-                panelClientsList.innerHTML = '<div style="color: #94a3b8; font-weight: 600; font-size: 14px; text-align: center; padding: 40px 0;">Nenhum cliente registado na base.</div>';
+                panelClientsList.innerHTML = '<div style="color: #94a3b8; font-weight: 600; font-size: 14px; text-align: center; padding: 40px 0;">Nenhum cliente registado na base de dados.</div>';
             } else {
                 clientes.forEach(cli => {
                     const item = document.createElement('div');
@@ -1709,31 +1803,53 @@
             }
         };
 
+        // Dar baixa / Marcar como recebido com histórico de operador
         window.marcarComoRecebido = async function(id) {
+            if (!operadorNome) {
+                window.openModal('modalIdentificarOperador');
+                return;
+            }
+
             try {
+                const dataBaixaFormatada = new Date().toLocaleDateString('pt-BR') + ' às ' + new Date().toLocaleTimeString('pt-BR', {hour: '2-digit', minute:'2-digit'});
+                
                 const idx = clientes.findIndex(c => c.id == id);
                 if (idx !== -1) {
                     clientes[idx].status = "Recebido";
+                    clientes[idx].ultimaBaixa = dataBaixaFormatada + ' por ' + operadorNome;
+                    clientes[idx].baixadoPor = operadorNome;
                     atualizarUI();
                 }
+
                 if (!id.toString().startsWith('temp_')) {
-                    await db.collection('artifacts/' + appId + '/public/data/clientes').doc(id).update({ status: "Recebido" });
+                    await db.collection('artifacts/' + appId + '/public/data/clientes').doc(id).update({ 
+                        status: "Recebido",
+                        ultimaBaixa: dataBaixaFormatada,
+                        baixadoPor: operadorNome
+                    });
                 }
-                window.showToast("Empresa marcada como Recebido com sucesso!");
+                window.showToast(`Empresa marcada como Recebido por ${operadorNome}!`);
             } catch (error) {
                 console.error("Erro ao marcar como recebido:", error);
             }
         };
 
+        // Reverter status recebido na nuvem
         window.desfazerRecebido = async function(id) {
             try {
                 const idx = clientes.findIndex(c => c.id == id);
                 if (idx !== -1) {
                     clientes[idx].status = "Cobrado";
+                    clientes[idx].ultimaBaixa = "";
+                    clientes[idx].baixadoPor = "";
                     atualizarUI();
                 }
                 if (!id.toString().startsWith('temp_')) {
-                    await db.collection('artifacts/' + appId + '/public/data/clientes').doc(id).update({ status: "Cobrado" });
+                    await db.collection('artifacts/' + appId + '/public/data/clientes').doc(id).update({ 
+                        status: "Cobrado",
+                        ultimaBaixa: "",
+                        baixadoPor: ""
+                    });
                 }
                 window.showToast("Status revertido para Cobrado!");
             } catch (error) {
@@ -1741,6 +1857,7 @@
             }
         };
 
+        // Excluir cliente de forma segura do Firestore
         window.excluirCliente = async function(id) {
             if(confirm('Tem certeza que deseja remover este cliente permanentemente?')) {
                 try {
@@ -1760,6 +1877,11 @@
         // ================= FLUXO DE SEGURANÇA E VALIDAÇÕES DO WHATSAPP =================
 
         window.validarEEnviar = function(clientId) {
+            if (!operadorNome) {
+                window.openModal('modalIdentificarOperador');
+                return;
+            }
+
             const cli = clientes.find(c => c.id == clientId);
             if (!cli) return;
 
@@ -1952,7 +2074,8 @@
                 const dataCobrancaFormatada = new Date().toLocaleDateString('pt-BR') + ' às ' + new Date().toLocaleTimeString('pt-BR', {hour: '2-digit', minute:'2-digit'});
                 const updates = {
                     status: "Cobrado",
-                    ultimaCobranca: dataCobrancaFormatada
+                    ultimaCobranca: dataCobrancaFormatada,
+                    cobradoPor: operadorNome
                 };
 
                 if (model.tipo === 'COBRANÇA') {
