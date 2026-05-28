@@ -35,19 +35,6 @@
 </head>
 <body class="bg-slate-50 dark:bg-black text-slate-800 dark:text-slate-200 min-h-screen flex flex-col transition-colors duration-300">
 
-    <script>
-        window.__app_id = "notafiscal-62ff4";
-        window.__firebase_config = JSON.stringify({
-            apiKey: "AIzaSyAbbYgYcbe5Dmhj2ERBKV8bSpSEj-7OeaM",
-            authDomain: "notafiscal-62ff4.firebaseapp.com",
-            projectId: "notafiscal-62ff4",
-            storageBucket: "notafiscal-62ff4.firebasestorage.app",
-            messagingSenderId: "71581313884",
-            appId: "1:71581313884:web:57aa9287a78662371cef99",
-            measurementId: "G-4YHFRN2WQK"
-        });
-    </script>
-
     <header class="bg-white dark:bg-[#111111] border-b border-slate-200 dark:border-zinc-800 sticky top-0 z-40 shadow-sm w-full transition-colors duration-300">
         <div class="px-4 sm:px-6 lg:px-8 xl:px-10">
             <div class="flex justify-between h-16 items-center">
@@ -67,7 +54,6 @@
                     <button onclick="toggleTheme()" class="p-2 text-slate-500 hover:text-brand-600 dark:text-zinc-400 dark:hover:text-brand-500 transition rounded-lg hover:bg-slate-100 dark:hover:bg-zinc-800" title="Alternar Tema">
                         <i id="themeIcon" data-lucide="moon" class="w-5 h-5"></i>
                     </button>
-                    
                     <button onclick="exportToCSV()" class="inline-flex items-center space-x-2 bg-zinc-800 dark:bg-zinc-200 hover:bg-black dark:hover:bg-white text-white dark:text-black px-4 py-2 rounded-lg text-sm font-bold transition shadow-sm">
                         <i data-lucide="download" class="w-4 h-4"></i>
                         <span class="hidden sm:inline">Exportar</span>
@@ -83,6 +69,7 @@
     </header>
 
     <div id="mainDashboardView" class="w-full flex-1 px-4 sm:px-6 lg:px-8 xl:px-10 py-6 flex flex-col lg:flex-row gap-6">
+        
         <div class="w-full lg:w-[25%] flex flex-col gap-5 shrink-0">
             <div class="bg-white dark:bg-[#111111] rounded-xl border border-slate-200 dark:border-zinc-800 p-4 shadow-sm transition-colors duration-300">
                 <h3 class="text-xs font-semibold text-slate-500 dark:text-zinc-400 uppercase tracking-wider mb-3 flex items-center gap-2">
@@ -134,12 +121,11 @@
                         <h3 class="text-xs font-bold text-slate-800 dark:text-white uppercase tracking-wider">Passo a Passo</h3>
                     </div>
                 </div>
-                
                 <div>
                     <label class="block text-[10px] font-bold text-slate-400 dark:text-zinc-500 uppercase mb-1">Selecione o Município / Portal</label>
                     <div class="flex gap-2">
                         <select id="passoPrefeituraSelector" onchange="onPassoPrefeituraChange()" class="w-full px-2.5 py-1.5 border border-slate-200 dark:border-zinc-700 rounded-lg text-xs bg-white dark:bg-zinc-900 font-semibold text-slate-800 dark:text-white focus:ring-2 focus:ring-brand-500 outline-none truncate">
-                            </select>
+                        </select>
                         <button onclick="askNewManualName()" class="bg-brand-50 dark:bg-brand-900/30 hover:bg-brand-100 dark:hover:bg-brand-900/50 text-brand-600 dark:text-brand-400 border border-brand-200 dark:border-brand-800 px-2.5 py-1.5 rounded-lg transition shrink-0" title="Criar Novo Passo a Passo">
                             <i data-lucide="plus" class="w-4 h-4"></i>
                         </button>
@@ -192,7 +178,7 @@
                             </tr>
                         </thead>
                         <tbody id="clientsTableBody" class="divide-y divide-slate-100 dark:divide-zinc-800 text-xs text-slate-700 dark:text-zinc-300">
-                            </tbody>
+                        </tbody>
                     </table>
                 </div>
             </div>
@@ -248,7 +234,7 @@
                 <div class="md:col-span-2">
                     <label class="block text-[10px] font-bold text-slate-400 dark:text-zinc-500 uppercase mb-1">Tomador Ativo</label>
                     <select id="workstationTomadorSelector" onchange="changeWorkstationTomador()" class="w-full px-3.5 py-2 border border-brand-200 dark:border-brand-800/50 rounded-lg text-xs bg-slate-50 dark:bg-zinc-900 font-semibold text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500 transition-colors">
-                        </select>
+                    </select>
                 </div>
                 <div>
                     <label class="block text-[10px] font-bold text-slate-400 dark:text-zinc-500 uppercase mb-1">Status Deste Mês</label>
@@ -272,7 +258,6 @@
                         <i data-lucide="key" class="text-brand-600 w-5 h-5"></i>
                         <h3 class="font-bold text-slate-800 dark:text-white text-sm uppercase tracking-wider">Acesso ao Portal</h3>
                     </div>
-                    
                     <div class="space-y-3">
                         <div class="mb-4">
                             <span class="text-[10px] text-slate-400 dark:text-zinc-500 font-bold uppercase block mb-1">Link Direto</span>
@@ -311,7 +296,6 @@
                         </div>
                         <span id="workstationTomadorApelido" class="bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-300 text-xs font-bold px-2 py-0.5 rounded">APELIDO</span>
                     </div>
-
                     <div class="space-y-3">
                         <div>
                             <span class="text-[10px] text-slate-400 dark:text-zinc-500 font-bold uppercase block mb-1">Designação Social</span>
@@ -344,7 +328,6 @@
                         <i data-lucide="settings" class="text-brand-700 dark:text-brand-500 w-5 h-5"></i>
                         <h3 class="font-bold text-brand-950 dark:text-brand-300 text-sm uppercase tracking-wider">Parâmetros Emissão</h3>
                     </div>
-
                     <div class="space-y-3">
                         <div>
                             <span class="text-[10px] text-brand-900/60 dark:text-brand-500/70 font-bold uppercase block mb-1">Local de Incidência</span>
@@ -383,7 +366,7 @@
                         </div>
                         <div class="grid grid-cols-2 gap-2">
                             <div>
-                                <span class="text-[9px] text-brand-900/60 dark:text-brand-500/70 font-bold uppercase block mb-1">Class. Tributária</span>
+                               <span class="text-[9px] text-brand-900/60 dark:text-brand-500/70 font-bold uppercase block mb-1">Class. Tributária</span>
                                 <div class="flex justify-between items-center bg-white dark:bg-zinc-900 border border-brand-100 dark:border-brand-800/50 p-2 rounded-lg transition">
                                     <span id="workstationCodClassTrib" class="text-[10px] font-bold text-slate-800 dark:text-zinc-200 truncate pr-1">N/A</span>
                                     <button onclick="copyWorkstationField('codClassTrib', 'Class. Tributária')" class="text-brand-600 dark:text-brand-500 transition shrink-0 p-1"><i data-lucide="copy" class="w-3.5 h-3.5"></i></button>
@@ -422,7 +405,7 @@
                             </div>
                             <div class="flex justify-between items-center bg-white dark:bg-zinc-900 border border-brand-100 dark:border-brand-800/50 p-1.5 rounded-lg transition">
                                 <div class="flex flex-col">
-                                    <span class="text-[8px] uppercase text-slate-400 font-bold">COFINS</span>
+                                   <span class="text-[8px] uppercase text-slate-400 font-bold">COFINS</span>
                                     <span id="wsCofins" class="text-[9px] font-bold text-slate-800 dark:text-zinc-200 truncate max-w-[30px]">0%</span>
                                 </div>
                                 <button onclick="copyWorkstationField('valCofins', 'COFINS')" class="text-brand-600 dark:text-brand-500 hover:text-brand-800"><i data-lucide="copy" class="w-3 h-3"></i></button>
@@ -450,7 +433,7 @@
                             </div>
                             <div class="flex justify-between items-center bg-white dark:bg-zinc-900 border border-brand-100 dark:border-brand-800/50 p-1.5 rounded-lg transition">
                                 <div class="flex flex-col">
-                                    <span class="text-[8px] uppercase text-slate-400 font-bold">ISS Ret.</span>
+                                   <span class="text-[8px] uppercase text-slate-400 font-bold">ISS Ret.</span>
                                     <span id="wsIssRetido" class="text-[9px] font-bold text-slate-800 dark:text-zinc-200 truncate max-w-[30px]">Não</span>
                                 </div>
                                 <button onclick="copyWorkstationField('issRetido', 'ISS Retido')" class="text-brand-600 dark:text-brand-500 hover:text-brand-800"><i data-lucide="copy" class="w-3 h-3"></i></button>
@@ -468,7 +451,6 @@
                             <h3 class="font-bold text-slate-800 dark:text-white text-sm uppercase tracking-wider">Corpo da Fatura</h3>
                         </div>
                     </div>
-
                     <div class="grid grid-cols-2 gap-3">
                         <div>
                             <span class="text-[10px] text-slate-400 dark:text-zinc-500 font-bold uppercase block mb-1">Valor da NFS-e</span>
@@ -486,12 +468,10 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg p-2.5 flex items-center justify-between">
                         <span class="text-[10px] text-zinc-700 dark:text-zinc-400 font-bold uppercase">Versão Sistema</span>
                         <span id="workstationVersao" class="bg-brand-600 dark:bg-brand-500 text-white text-[10px] font-bold px-2 py-0.5 rounded shadow-sm">N/A</span>
                     </div>
-
                     <div>
                         <span class="text-[10px] text-slate-400 dark:text-zinc-500 font-bold uppercase block mb-1">Descrição dos Serviços</span>
                         <div class="bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 p-3 rounded-lg text-xs leading-relaxed space-y-2">
@@ -548,7 +528,7 @@
             </div>
             <div class="p-6 bg-white dark:bg-[#111111] grid grid-cols-2 md:grid-cols-4 gap-4 border-b border-slate-100 dark:border-zinc-800">
                 <div class="bg-slate-50 dark:bg-zinc-900 p-4 rounded-xl border border-slate-100 dark:border-zinc-800">
-                    <p class="text-[10px] text-slate-500 dark:text-zinc-400 font-bold uppercase mb-1">R$ Total Previsto</p>
+                    <p class="text-[10px] text-slate-500 dark:text-zinc-400 font-bold uppercase mb-1">R$ Total Previsto (Cadastrado)</p>
                     <p id="sumTotalPrevisto" class="text-xl font-bold text-slate-800 dark:text-white">R$ 0,00</p>
                 </div>
                 <div class="bg-emerald-50 dark:bg-emerald-900/10 p-4 rounded-xl border border-emerald-100 dark:border-emerald-800/30">
@@ -577,7 +557,8 @@
                                 <th class="py-2 px-3 text-right">R$ Pendente</th>
                             </tr>
                         </thead>
-                        <tbody id="summaryTableBody" class="divide-y divide-slate-100 dark:divide-zinc-800 text-xs text-slate-700 dark:text-zinc-300"></tbody>
+                        <tbody id="summaryTableBody" class="divide-y divide-slate-100 dark:divide-zinc-800 text-xs text-slate-700 dark:text-zinc-300">
+                        </tbody>
                     </table>
                 </div>
             </div>
@@ -733,7 +714,7 @@
                 </div>
 
                 <div id="spV2ModalContainer" class="hidden bg-purple-50 dark:bg-purple-900/10 p-4 rounded-xl border border-purple-200 dark:border-purple-800/30 space-y-3 transition-colors mt-3">
-                    <span class="text-xs font-bold text-purple-700 dark:text-purple-400 flex items-center gap-1"><i data-lucide="info" class="w-3.5 h-3.5"></i> Parâmetros SP - Versão 2 (Lucro Presumido/Real)</span>
+                    <span class="text-xs font-bold text-purple-700 dark:text-purple-400 flex items-center gap-1"><i data-lucide="info" class="w-3.5 h-3.5"></i> Parâmetros SP - Versão 2</span>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                         <div class="md:col-span-2">
                             <label class="block text-[10px] font-bold text-slate-500 dark:text-zinc-400 uppercase mb-1">Tipo de Retenção (?)</label>
@@ -825,16 +806,21 @@
         </div>
     </div>
 
-    <div id="customPromptModal" class="fixed inset-0 bg-slate-900/70 dark:bg-black/80 backdrop-blur-xs flex items-center justify-center z-[100] hidden p-4 transition-opacity">
-        <div class="bg-white dark:bg-[#111111] rounded-2xl border border-slate-200 dark:border-zinc-800 w-full max-w-sm p-6 shadow-2xl space-y-4 transition-colors">
+    <div id="workstationToast" class="hidden fixed bottom-5 right-5 bg-zinc-900 text-white dark:bg-white dark:text-black p-3 rounded-lg text-xs font-bold z-50 flex items-center gap-2 shadow-xl">
+        <i data-lucide="check" class="w-4 h-4 text-emerald-500"></i>
+        <span id="workstationToastMsg">Copiado!</span>
+    </div>
+
+    <div id="customPromptModal" class="fixed inset-0 bg-slate-900/70 dark:bg-black/80 backdrop-blur-xs flex items-center justify-center z-[100] hidden p-4">
+        <div class="bg-white dark:bg-[#111111] rounded-2xl border border-slate-200 dark:border-zinc-800 w-full max-w-sm p-6 shadow-2xl space-y-4">
             <div class="flex items-center gap-3">
                 <div class="bg-brand-100 dark:bg-brand-900/30 text-brand-700 dark:text-brand-400 p-2 rounded-full">
                     <i data-lucide="edit-3" class="w-5 h-5"></i>
                 </div>
                 <h4 id="customPromptTitle" class="text-sm font-bold text-slate-900 dark:text-white">Novo Manual</h4>
             </div>
-            <p id="customPromptMessage" class="text-xs text-slate-600 dark:text-zinc-400 leading-relaxed font-medium">Digite o nome do Manual (Ex: Portal Nacional)</p>
-            <input type="text" id="customPromptInput" class="w-full px-3 py-2 border border-slate-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-slate-900 dark:text-white rounded-lg text-sm focus:ring-2 focus:ring-brand-500 focus:outline-none transition-colors">
+            <p id="customPromptMessage" class="text-xs text-slate-600 dark:text-zinc-400 font-medium">Digite o nome.</p>
+            <input type="text" id="customPromptInput" class="w-full px-3 py-2 border border-slate-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-slate-900 dark:text-white rounded-lg text-sm focus:ring-2 focus:ring-brand-500 focus:outline-none">
             <div class="flex justify-end gap-2 pt-2">
                 <button onclick="closeCustomPrompt(false)" class="border border-slate-200 dark:border-zinc-700 text-slate-600 dark:text-zinc-300 font-bold px-4 py-1.5 rounded-lg text-xs hover:bg-slate-50 dark:hover:bg-zinc-800 transition">Cancelar</button>
                 <button onclick="closeCustomPrompt(true)" class="bg-brand-600 hover:bg-brand-700 text-white font-bold px-4 py-1.5 rounded-lg text-xs shadow transition">Confirmar</button>
@@ -842,30 +828,30 @@
         </div>
     </div>
 
-    <div id="customAlertModal" class="fixed inset-0 bg-slate-900/70 dark:bg-black/80 backdrop-blur-xs flex items-center justify-center z-[100] hidden p-4 transition-opacity">
-        <div class="bg-white dark:bg-[#111111] rounded-2xl border border-slate-200 dark:border-zinc-800 w-full max-w-sm p-6 shadow-2xl space-y-4 transition-colors">
+    <div id="customAlertModal" class="fixed inset-0 bg-slate-900/70 dark:bg-black/80 backdrop-blur-xs flex items-center justify-center z-[100] hidden p-4">
+        <div class="bg-white dark:bg-[#111111] rounded-2xl border border-slate-200 dark:border-zinc-800 w-full max-w-sm p-6 shadow-2xl space-y-4">
             <div class="flex items-center gap-3">
                 <div class="bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 p-2 rounded-full">
                     <i data-lucide="info" class="w-5 h-5"></i>
                 </div>
                 <h4 id="customAlertTitle" class="text-sm font-bold text-slate-900 dark:text-white">Aviso do Sistema</h4>
             </div>
-            <p id="customAlertMessage" class="text-xs text-slate-600 dark:text-zinc-400 leading-relaxed font-medium">Informação.</p>
+            <p id="customAlertMessage" class="text-xs text-slate-600 dark:text-zinc-400 font-medium">Informação.</p>
             <div class="flex justify-end pt-2">
                 <button onclick="closeCustomAlert()" class="bg-brand-600 hover:bg-brand-700 text-white font-bold px-4 py-1.5 rounded-lg text-xs shadow transition">Ok</button>
             </div>
         </div>
     </div>
 
-    <div id="customConfirmModal" class="fixed inset-0 bg-slate-900/70 dark:bg-black/80 backdrop-blur-xs flex items-center justify-center z-[100] hidden p-4 transition-opacity">
-        <div class="bg-white dark:bg-[#111111] rounded-2xl border border-slate-200 dark:border-zinc-800 w-full max-w-sm p-6 shadow-2xl space-y-4 transition-colors">
+    <div id="customConfirmModal" class="fixed inset-0 bg-slate-900/70 dark:bg-black/80 backdrop-blur-xs flex items-center justify-center z-[100] hidden p-4">
+        <div class="bg-white dark:bg-[#111111] rounded-2xl border border-slate-200 dark:border-zinc-800 w-full max-w-sm p-6 shadow-2xl space-y-4">
             <div class="flex items-center gap-3">
                 <div class="bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-400 p-2 rounded-full">
                     <i data-lucide="help-circle" class="w-5 h-5"></i>
                 </div>
                 <h4 id="customConfirmTitle" class="text-sm font-bold text-slate-900 dark:text-white">Confirmação</h4>
             </div>
-            <p id="customConfirmMessage" class="text-xs text-slate-600 dark:text-zinc-400 leading-relaxed font-medium">Deseja realmente continuar?</p>
+            <p id="customConfirmMessage" class="text-xs text-slate-600 dark:text-zinc-400 font-medium">Deseja realmente continuar?</p>
             <div class="flex justify-end gap-2 pt-2">
                 <button onclick="closeCustomConfirm(false)" class="border border-slate-200 dark:border-zinc-700 text-slate-600 dark:text-zinc-300 font-bold px-4 py-1.5 rounded-lg text-xs hover:bg-slate-50 dark:hover:bg-zinc-800 transition">Cancelar</button>
                 <button onclick="closeCustomConfirm(true)" class="bg-brand-600 hover:bg-brand-700 text-white font-bold px-4 py-1.5 rounded-lg text-xs shadow transition">Confirmar</button>
@@ -873,137 +859,65 @@
         </div>
     </div>
 
-    <div id="workstationToast" class="fixed bottom-5 right-5 hidden bg-slate-900 text-white text-xs px-4 py-3 rounded-xl shadow-2xl z-[100] border border-zinc-800 items-center gap-2">
-        <span id="workstationToastMsg">Copiado!</span>
-    </div>
-
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        const firebaseConfig = window.__firebase_config ? JSON.parse(window.__firebase_config) : null;
-        const appId = window.__app_id || 'default-app-id';
+        // Credenciais Fixas e Definitivas do seu Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyAbbYgYcbe5Dmhj2ERBKV8bSpSEj-7OeaM",
+            authDomain: "notafiscal-62ff4.firebaseapp.com",
+            projectId: "notafiscal-62ff4",
+            storageBucket: "notafiscal-62ff4.firebasestorage.app",
+            messagingSenderId: "71581313884",
+            appId: "1:71581313884:web:57aa9287a78662371cef99",
+            measurementId: "G-4YHFRN2WQK"
+        };
 
-        if(firebaseConfig) {
-            const app = initializeApp(firebaseConfig);
-            const auth = getAuth(app);
-            const db = getFirestore(app);
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
 
-            const initAuth = async () => {
-                try {
-                    await signInAnonymously(auth);
-                } catch(e) { 
-                    console.error("Erro na Autenticação", e);
-                }
-            };
+        // Autentica anonimamente para permitir leitura e escrita segura no Firestore
+        signInAnonymously(auth).catch(e => console.error("Erro na Autenticação Firebase", e));
 
-            initAuth();
-            let isFirebaseInitialized = false;
+        let isFirebaseInitialized = false;
+        
+        onAuthStateChanged(auth, (user) => {
+            if (user && !isFirebaseInitialized) {
+                isFirebaseInitialized = true;
+                
+                // Salvando no nó fixo 'producao/mesa_operacoes' para que TODOS os computadores acessem a mesma base
+                const docRef = doc(db, 'producao', 'mesa_operacoes');
+                
+                onSnapshot(docRef, (snapshot) => {
+                    if (snapshot.exists()) {
+                        const data = snapshot.data();
+                        window.setCloudData(data.clients || [], data.passos || {});
+                        document.getElementById('cloudStatusIndicator')?.classList.remove('hidden');
+                    } else {
+                        window.forceSyncToCloud();
+                    }
+                }, (error) => {
+                    console.error("Erro ao escutar atualizações do Firestore", error);
+                });
+            }
+        });
 
-            onAuthStateChanged(auth, (user) => {
-                if (user && !isFirebaseInitialized) {
-                    isFirebaseInitialized = true;
-                    const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'app_state', 'main');
-                    
-                    onSnapshot(docRef, (snapshot) => {
-                        if (snapshot.exists()) {
-                            const data = snapshot.data();
-                            window.setCloudData(data.clients || [], data.passos || {});
-                            document.getElementById('cloudStatusIndicator')?.classList.remove('hidden');
-                        } else {
-                            window.forceSyncToCloud();
-                        }
-                    }, (error) => {
-                        console.error("Erro no Snapshot do Firestore", error);
-                    });
-                }
-            });
-
-            window.syncToCloud = async (clientsData, passosData) => {
-                if (!auth.currentUser) return;
-                try {
-                    const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'app_state', 'main');
-                    await setDoc(docRef, { clients: clientsData, passos: passosData });
-                } catch(e) {
-                    console.error("Erro de sincronização", e);
-                }
-            };
-        }
+        window.syncToCloud = async (clientsData, passosData) => {
+            if (!auth.currentUser) return;
+            try {
+                const docRef = doc(db, 'producao', 'mesa_operacoes');
+                await setDoc(docRef, { clients: clientsData, passos: passosData });
+            } catch(e) {
+                console.error("Erro ao sincronizar com a nuvem", e);
+            }
+        };
     </script>
 
     <script>
-        // --- VARIÁVEIS GLOBAIS DE DADOS ---
-        let clients = [];
-        let prefeituraPassos = {};
-        let currentActiveWorkstationClientId = null;
-        let masks = {};
-
-        let initialPrefeituraPassos = {
-            "Portal Nacional": `M A N U A L   D E   E M I S S Ã O   ( S. O. P. )  -  P O R T A L   N A C I O N A L\n=======================================================================\n\nPASSO 1: ACESSO AO SISTEMA (LOGIN GOV.BR)\n-----------------------------------------------------------------------\n1. Na nossa Mesa de Operações, aceda ao Portal Nacional da NFS-e.\n2. Escolha o certificado digital correspondente ou utilize os dados de acesso da empresa (Gov.br).\n\nPASSO 2: EMISSÃO SIMPLIFICADA OU COMPLETA\n-----------------------------------------------------------------------\n1. No painel principal, escolha a opção "Nova NFS-e".\n2. Para serviços reuniões, utilize a Emissão Completa para preencher os dados do Tomador e do serviço detalhadamente.\n\nPASSO 3: INFORMAÇÕES GERAIS E VALORES\n-----------------------------------------------------------------------\n1. Insira o CNPJ do Tomador localizado no nosso Gestor.\n2. Verifique o Código de Tributação Nacional correspondente ao serviço.\n3. Copie o "Valor da NFS-e" e cole no campo apropriado.\n4. Copie a "Descrição dos Serviços" através do botão no Gestor e cole na área de discriminação do Portal.\n\nPASSO 4: FINALIZAR E ATUALIZAR ESTADO\n-----------------------------------------------------------------------\n1. Verifique o resumo e confirme a emissão.\n2. Volte ao Gestor Interno e altere o estado do tomador para "Nota Fiscal Emitida".`,
-            "São Paulo/SP": `M A N U A L   D E   E M I S S Ã O   ( S. O. P. )  -  S Ã O   P A U L O / S P\n=======================================================================\n\nPASSO 1: ACESSO AO SISTEMA (LOGIN)\n-----------------------------------------------------------------------\n1. Na nossa Mesa de Operações, clique no botão "Aceder Portal Direto" para abrir a Nota Fiscal Paulistana.\n2. Utilize os ícones do Gestor para copiar o "Utilizador" e a "Senha".\n3. No portal da prefeitura, cole as credenciais e clique em "Entrar".\n4. Fique atento à Versão do Sistema solicitada (V1 ou V2).\n\nPASSO 2: IDENTIFICAÇÃO DO TOMADOR (CLIENTE)\n-----------------------------------------------------------------------\n1. No menu lateral ESQUERDO do portal da prefeitura, clique em "Emissão de NFS-e".\n2. Localize a caixa "CPF/CNPJ do Tomador".\n3. Volte ao nosso Gestor, copie o "CNPJ do Tomador" e cole-o na prefeitura.\n4. Clique em "Avançar".\n\nPASSO 3: INFORMAÇÕES GERAIS DA NOTA\n-----------------------------------------------------------------------\nPreencha com exatidão os dados do bloco "Parâmetros de Emissão" do nosso Gestor:\n\n• LOCAL DA INCIDÊNCIA: Selecione na prefeitura a mesma opção listada no painel.\n• NATUREZA DA OPERAÇÃO: Selecione a opção correspondente.\n• CÓDIGO DO SERVIÇO: Digite ou pesquise na lupa o código numérico listado no Gestor.\n\nPASSO 4: VALORES E DESCRIÇÃO (CORPO DA NOTA)\n-----------------------------------------------------------------------\n1. VALOR DO SERVIÇO: Copie o "Valor da NFS-e" do Gestor e cole na prefeitura.\n2. DESCRIÇÃO DOS SERVIÇOS: Clique no botão azul "Copiar Descrição" no nosso Gestor.\n3. Role a tela da prefeitura até ao final e cole o texto na caixa "Discriminação dos Serviços".\n4. Clique no botão "Emitir" no final da página.\n\nPASSO 5: ATUALIZAR ESTADO NO GESTOR INTERNO\n-----------------------------------------------------------------------\n1. Com a nota emitida com sucesso, volte ao nosso Gestor.\n2. Clique no botão de estado "Pendente este Mês" para mudá-lo para "Nota Fiscal Emitida".\n3. O seu trabalho com este cliente está concluído!`
-        };
-
-        // --- SISTEMA DE PERSISTÊNCIA E INICIALIZAÇÃO ---
-        window.addEventListener('DOMContentLoaded', () => {
-            initTheme();
-            loadLocalDataFallback();
-            initMasks();
-            initApp();
-            setupAccessibility();
-        });
-
-        function loadLocalDataFallback() {
-            const savedClients = localStorage.getItem('gestor_nfs_clients');
-            const savedPassos = localStorage.getItem('gestor_nfs_passos');
-
-            if (savedClients) {
-                clients = JSON.parse(savedClients);
-            } else {
-                clients = [];
-            }
-
-            if (savedPassos) {
-                prefeituraPassos = JSON.parse(savedPassos);
-            } else {
-                prefeituraPassos = {...initialPrefeituraPassos};
-            }
-        }
-
-        window.setCloudData = function(cloudClients, cloudPassos) {
-            clients = cloudClients;
-            prefeituraPassos = cloudPassos;
-            
-            populatePrefeituraDropdowns();
-            renderTable();
-            
-            if (!document.getElementById('emissionWorkstationView').classList.contains('hidden') && currentActiveWorkstationClientId) {
-                const c = clients.find(cl => cl.id === currentActiveWorkstationClientId);
-                if(c) renderWorkstationTomadorDropdown(c);
-                else closeWorkstation();
-            }
-            if (!document.getElementById('summaryModal').classList.contains('hidden')) {
-                openSummaryModal();
-            }
-        };
-
-        window.forceSyncToCloud = function() {
-            if (typeof window.syncToCloud === 'function') window.syncToCloud(clients, prefeituraPassos);
-        };
-
-        function saveData() {
-            localStorage.setItem('gestor_nfs_clients', JSON.stringify(clients));
-            localStorage.setItem('gestor_nfs_passos', JSON.stringify(prefeituraPassos));
-            
-            // Força o push instantâneo para a Base de Dados no Cloud Firestore
-            if (typeof window.syncToCloud === 'function') {
-                window.syncToCloud(clients, prefeituraPassos);
-            }
-            updateProgressBar();
-            updateStats();
-        }
-
-        // --- THEME TOGGLE ---
+        // --- THEME TOGGLE (CLARO / ESCURO) ---
         function toggleTheme() {
             const html = document.documentElement;
             html.classList.toggle('dark');
@@ -1042,6 +956,86 @@
                 btn.innerHTML = '<i data-lucide="eye" class="w-4 h-4 pointer-events-none"></i>';
             }
             lucide.createIcons();
+        }
+
+        // --- DADOS INICIAIS ---
+        let initialPrefeituraPassos = {
+            "Portal Nacional": `M A N U A L   D E   E M I S S Ã O   ( S. O. P. )  -  P O R T A L   N A C I O N A L\n=======================================================================\n\nPASSO 1: ACESSO AO SISTEMA (LOGIN GOV.BR)\n-----------------------------------------------------------------------\n1. Na nossa Mesa de Operações, aceda ao Portal Nacional da NFS-e.\n2. Escolha o certificado digital correspondente ou utilize os dados de acesso da empresa (Gov.br).\n\nPASSO 2: EMISSÃO SIMPLIFICADA OU COMPLETA\n-----------------------------------------------------------------------\n1. No painel principal, escolha a opção "Nova NFS-e".\n2. Para serviços recorrentes, utilize a Emissão Completa para preencher os dados do Tomador e do serviço detalhadamente.\n\nPASSO 3: INFORMAÇÕES GERAIS E VALORES\n-----------------------------------------------------------------------\n1. Insira o CNPJ do Tomador localizado no nosso Gestor.\n2. Verifique o Código de Tributação Nacional correspondente ao serviço.\n3. Copie o "Valor da NFS-e" e cole no campo apropriado.\n4. Copie a "Descrição dos Serviços" através do botão no Gestor e cole na área de discriminação do Portal.\n\nPASSO 4: FINALIZAR E ATUALIZAR ESTADO\n-----------------------------------------------------------------------\n1. Verifique o resumo e confirme a emissão.\n2. Volte ao Gestor Interno e altere o estado do tomador para "Nota Fiscal Emitida".`,
+            "São Paulo/SP": `M A N U A L   D E   E M I S S Ã O   ( S. O. P. )  -  S Ã O   P A U L O / S P\n=======================================================================\n\nPASSO 1: ACESSO AO SISTEMA (LOGIN)\n-----------------------------------------------------------------------\n1. Na nossa Mesa de Operações, clique no botão "Aceder Portal Direto" para abrir a Nota Fiscal Paulistana.\n2. Utilize os ícones do Gestor para copiar o "Utilizador" e a "Senha".\n3. No portal da prefeitura, cole as credenciais e clique em "Entrar".\n4. Fique atento à Versão do Sistema solicitada (V1 ou V2).\n\nPASSO 2: IDENTIFICAÇÃO DO TOMADOR (CLIENTE)\n-----------------------------------------------------------------------\n1. No menu lateral ESQUERDO do portal da prefeitura, clique em "Emissão de NFS-e".\n2. Localize a caixa "CPF/CNPJ do Tomador".\n3. Volte ao nosso Gestor, copie o "CNPJ do Tomador" e cole-o na prefeitura.\n4. Clique em "Avançar".\n\nPASSO 3: INFORMAÇÕES GERAIS DA NOTA\n-----------------------------------------------------------------------\nPreencha com exatidão os dados do bloco "Parâmetros de Emissão" do nosso Gestor:\n\n• LOCAL DA INCIDÊNCIA: Selecione na prefeitura a mesma opção listada no painel.\n• NATUREZA DA OPERAÇÃO: Selecione a opção correspondente.\n• CÓDIGO DO SERVIÇO: Digite ou pesquise na lupa o código numérico listado no Gestor.\n\nPASSO 4: VALORES E DESCRIÇÃO (CORPO DA NOTA)\n-----------------------------------------------------------------------\n1. VALOR DO SERVIÇO: Copie o "Valor da NFS-e" do Gestor e cole na prefeitura.\n2. DESCRIÇÃO DOS SERVIÇOS: Clique no botão azul "Copiar Descrição" no nosso Gestor.\n3. Role a tela da prefeitura até ao final e cole o texto na caixa "Discriminação dos Serviços".\n4. Clique no botão "Emitir" no final da página.\n\nPASSO 5: ATUALIZAR ESTADO NO GESTOR INTERNO\n-----------------------------------------------------------------------\n1. Com a nota emitida com sucesso, volte ao nosso Gestor.\n2. Clique no botão de estado "Pendente este Mês" para mudá-lo para "Nota Fiscal Emitida".\n3. O seu trabalho com este cliente está concluído!`,
+        };
+
+        let clients = [];
+        let prefeituraPassos = {};
+        let currentActiveWorkstationClientId = null;
+        let masks = {};
+
+        // --- PERSISTÊNCIA E INICIALIZAÇÃO ---
+        window.addEventListener('DOMContentLoaded', () => {
+            initTheme();
+            loadLocalDataFallback();
+            initMasks();
+            initApp();
+            setupAccessibility();
+        });
+
+        function loadLocalDataFallback() {
+            const savedClients = localStorage.getItem('gestor_nfs_clients');
+            const savedPassos = localStorage.getItem('gestor_nfs_passos');
+
+            if (savedClients) {
+                let parsed = JSON.parse(savedClients);
+                parsed.forEach(client => {
+                    if (client.tomadores) {
+                        client.tomadores.forEach(tomador => {
+                            if (tomador.emitido !== undefined) {
+                                tomador.status = tomador.emitido ? 'emitida' : 'pendente';
+                                delete tomador.emitido;
+                            }
+                            if (!tomador.status) tomador.status = 'pendente';
+                        });
+                    }
+                });
+                clients = parsed;
+            } else {
+                clients = [];
+            }
+
+            if (savedPassos) {
+                prefeituraPassos = JSON.parse(savedPassos);
+            } else {
+                prefeituraPassos = {...initialPrefeituraPassos};
+            }
+        }
+
+        window.setCloudData = function(cloudClients, cloudPassos) {
+            clients = cloudClients;
+            prefeituraPassos = cloudPassos;
+            
+            populatePrefeituraDropdowns();
+            renderTable();
+            
+            if (!document.getElementById('emissionWorkstationView').classList.contains('hidden') && currentActiveWorkstationClientId) {
+                const c = clients.find(cl => cl.id === currentActiveWorkstationClientId);
+                if(c) renderWorkstationTomadorDropdown(c);
+                else closeWorkstation();
+            }
+            if (!document.getElementById('summaryModal').classList.contains('hidden')) {
+                openSummaryModal();
+            }
+        };
+
+        window.forceSyncToCloud = function() {
+            if (typeof window.syncToCloud === 'function') window.syncToCloud(clients, prefeituraPassos);
+        };
+
+        function saveData() {
+            localStorage.setItem('gestor_nfs_clients', JSON.stringify(clients));
+            localStorage.setItem('gestor_nfs_passos', JSON.stringify(prefeituraPassos));
+            if (typeof window.syncToCloud === 'function') {
+                window.syncToCloud(clients, prefeituraPassos);
+            }
+            updateProgressBar();
+            updateStats();
         }
 
         function initMasks() {
@@ -1129,7 +1123,6 @@
         function updateProgressBar() {
             let total = 0;
             let completed = 0;
-            
             const activeClients = clients.filter(c => c.ativo);
             activeClients.forEach(c => {
                 (c.tomadores || []).forEach(t => {
@@ -1241,10 +1234,10 @@
             const sortedData = [...dataToRender].sort((a, b) => a.empresa.localeCompare(b.empresa, 'pt-BR', { sensitivity: 'base' }));
             sortedData.forEach(client => {
                 const tomadoresCount = client.tomadores ? client.tomadores.length : 0;
-                
                 let hasAtrasado = false;
                 let hasHoje = false;
                 let hasAlerta = false;
+                
                 (client.tomadores || []).forEach(t => {
                     const sla = checkSlaStatus(t.diaFaturamento, t.status);
                     if (sla && sla.tipo === 'atrasado') hasAtrasado = true;
@@ -1254,20 +1247,19 @@
                 
                 let slaBadge = '';
                 if (hasAtrasado && client.ativo) {
-                    slaBadge = `<span class="bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 text-[10px] font-bold px-1.5 py-0.5 rounded border border-red-200 dark:border-red-800/50 flex items-center gap-1 animate-pulse" title="Contém notas atrasadas"><i data-lucide="alert-circle" class="w-3 h-3"></i> Atraso</span>`;
+                    slaBadge = `<span class="bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 text-[10px] font-bold px-1.5 py-0.5 rounded border border-red-200 dark:border-red-800/50 flex items-center gap-1 animate-pulse"><i data-lucide="alert-circle" class="w-3 h-3"></i> Atraso</span>`;
                 } else if (hasHoje && client.ativo) {
-                    slaBadge = `<span class="bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 text-[10px] font-bold px-1.5 py-0.5 rounded border border-amber-200 dark:border-amber-800/50 flex items-center gap-1" title="Contém notas vencendo hoje"><i data-lucide="clock" class="w-3 h-3"></i> Vence Hoje</span>`;
+                    slaBadge = `<span class="bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 text-[10px] font-bold px-1.5 py-0.5 rounded border border-amber-200 dark:border-amber-800/50 flex items-center gap-1"><i data-lucide="clock" class="w-3 h-3"></i> Vence Hoje</span>`;
                 } else if (hasAlerta && client.ativo) {
-                    slaBadge = `<span class="bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400 text-[10px] font-bold px-1.5 py-0.5 rounded border border-yellow-200 dark:border-yellow-800/50 flex items-center gap-1" title="Contém notas vencendo em até 2 dias"><i data-lucide="calendar-clock" class="w-3 h-3"></i> Vence em breve</span>`;
+                    slaBadge = `<span class="bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400 text-[10px] font-bold px-1.5 py-0.5 rounded border border-yellow-200 dark:border-yellow-800/50 flex items-center gap-1"><i data-lucide="calendar-clock" class="w-3 h-3"></i> Vence em breve</span>`;
                 }
+
+                const portalBadge = client.tipoPortal === 'Nacional' 
+                    ? `<span class="bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400 text-[9px] font-bold px-1.5 py-0.5 rounded border border-purple-200 dark:border-purple-800/50">Portal Nacional</span>`
+                    : `<span class="bg-slate-100 dark:bg-zinc-800 text-slate-600 dark:text-zinc-400 text-[9px] font-bold px-1.5 py-0.5 rounded border border-slate-200 dark:border-zinc-700">Municipal</span>`;
 
                 const tr = document.createElement('tr');
                 tr.className = "hover:bg-slate-50/70 dark:hover:bg-zinc-800/80 border-b border-slate-100 dark:border-zinc-800 transition-colors";
-                
-                const portalBadge = client.tipoPortal === 'Nacional' 
-                    ? `<span class="bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400 text-[9px] font-bold px-1.5 py-0.5 rounded border border-purple-200 dark:border-purple-800/50" title="Utiliza o Portal Nacional de NFS-e">Portal Nacional</span>`
-                    : `<span class="bg-slate-100 dark:bg-zinc-800 text-slate-600 dark:text-zinc-400 text-[9px] font-bold px-1.5 py-0.5 rounded border border-slate-200 dark:border-zinc-700" title="Utiliza o sistema da Prefeitura">Municipal</span>`;
-                
                 tr.innerHTML = `
                     <td class="py-3 px-4">
                         <div class="font-bold text-slate-900 dark:text-white text-sm tracking-tight truncate max-w-[320px]" title="${client.empresa}">
@@ -1289,7 +1281,7 @@
                         </div>
                     </td>
                     <td class="py-3 px-4 text-center">
-                        <button onclick="toggleAtivoDirect('${client.id}')" title="Clique para alterar o estado operacional" class="focus:outline-none transition inline-block">
+                        <button onclick="toggleAtivoDirect('${client.id}')" class="focus:outline-none transition inline-block">
                             ${client.ativo ? `<span class="inline-flex items-center justify-center px-3 py-1 text-[10px] font-bold bg-emerald-100 dark:bg-emerald-900/30 text-emerald-800 dark:text-emerald-400 rounded-full">Ativo</span>` : `<span class="inline-flex items-center justify-center px-3 py-1 text-[10px] font-bold bg-slate-200 dark:bg-zinc-800 text-slate-500 dark:text-zinc-400 rounded-full">Inativo</span>`}
                         </button>
                     </td>
@@ -1367,29 +1359,24 @@
                     let num = parseFloat(numStr);
          
                     if (!isNaN(num) && !/[a-zA-Z]/i.test(rawVal.replace(/[R\$]/g, ''))) {
-                        if (t.status !== 'cancelada') {
-                            pPrevisto += num;
-                        }
-                        if (t.status === 'emitida') {
-                            pEmitido += num;
-                        } else if (t.status === 'pendente') {
-                            pPendente += num;
-                        } else if (t.status === 'cancelada') {
-                            grandQtdCanceladas++;
-                        }
+                        if (t.status !== 'cancelada') pPrevisto += num;
+                        if (t.status === 'emitida') pEmitido += num;
+                        else if (t.status === 'pendente') pPendente += num;
+                        else if (t.status === 'cancelada') grandQtdCanceladas++;
                     } else if (t.status === 'cancelada') {
                         grandQtdCanceladas++;
                     }
                 });
+
                 if (pQtdNotas > 0) {
                     const tr = document.createElement('tr');
                     tr.className = "border-b border-slate-50 dark:border-zinc-800/50 hover:bg-slate-50 dark:hover:bg-zinc-800 transition-colors";
                     tr.innerHTML = `
                         <td class="py-2 px-3 font-semibold text-slate-800 dark:text-zinc-200 truncate max-w-[200px]" title="${client.empresa}">${client.empresa}</td>
                         <td class="py-2 px-3 text-center font-bold text-slate-500 dark:text-zinc-400">${pQtdNotas}</td>
-                        <td class="py-2 px-3 text-right font-mono font-bold text-slate-800 dark:text-white">R$ ${pPrevisto.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>
-                        <td class="py-2 px-3 text-right font-mono font-bold text-emerald-600 dark:text-emerald-400">R$ ${pEmitido.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>
-                        <td class="py-2 px-3 text-right font-mono font-bold text-amber-600 dark:text-amber-500">R$ ${pPendente.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>
+                        <td class="py-2 px-3 text-right font-mono font-bold text-slate-800 dark:text-white">R$ ${pPrevisto.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</td>
+                        <td class="py-2 px-3 text-right font-mono font-bold text-emerald-600 dark:text-emerald-400">R$ ${pEmitido.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</td>
+                        <td class="py-2 px-3 text-right font-mono font-bold text-amber-600 dark:text-amber-500">R$ ${pPendente.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</td>
                     `;
                     tbody.appendChild(tr);
 
@@ -1398,13 +1385,14 @@
                     grandTotalPendente += pPendente;
                 }
             });
+
             if (tbody.innerHTML === '') {
                 tbody.innerHTML = '<tr><td colspan="5" class="py-4 text-center text-slate-400 dark:text-zinc-500 italic">Nenhum dado ativo encontrado para o resumo.</td></tr>';
             }
 
-            document.getElementById('sumTotalPrevisto').textContent = 'R$ ' + grandTotalPrevisto.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2});
-            document.getElementById('sumTotalEmitido').textContent = 'R$ ' + grandTotalEmitido.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2});
-            document.getElementById('sumTotalPendente').textContent = 'R$ ' + grandTotalPendente.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            document.getElementById('sumTotalPrevisto').textContent = 'R$ ' + grandTotalPrevisto.toLocaleString('pt-BR', {minimumFractionDigits: 2});
+            document.getElementById('sumTotalEmitido').textContent = 'R$ ' + grandTotalEmitido.toLocaleString('pt-BR', {minimumFractionDigits: 2});
+            document.getElementById('sumTotalPendente').textContent = 'R$ ' + grandTotalPendente.toLocaleString('pt-BR', {minimumFractionDigits: 2});
             document.getElementById('sumTotalCanceladas').textContent = grandQtdCanceladas;
 
             modal.classList.remove('hidden');
@@ -1414,14 +1402,13 @@
             document.getElementById('summaryModal').classList.add('hidden');
         }
 
-        // --- SISTEMA DE MANUAIS (PASSO A PASSO) ---
+        // --- SISTEMA DE MANUAIS ---
         function populatePrefeituraDropdowns() {
             const selector = document.getElementById('passoPrefeituraSelector');
             selector.innerHTML = '';
             
             const defaultOpt = document.createElement('option');
-            defaultOpt.value = "";
-            defaultOpt.disabled = true; defaultOpt.selected = true;
+            defaultOpt.value = ""; defaultOpt.disabled = true; defaultOpt.selected = true;
             defaultOpt.textContent = "Escolha um Município...";
             selector.appendChild(defaultOpt);
 
@@ -1453,9 +1440,6 @@
                     }
                     document.getElementById('passoPrefeituraSelector').value = manualName;
                     openPassoAPassoFullScreen();
-                    
-                    const content = document.getElementById('passoFullScreenContent');
-                    if(content && !content.classList.contains('hidden')) toggleEditPassoFullScreen();
                 }
             };
         }
@@ -1466,23 +1450,19 @@
             promptCallback = null;
         }
 
-        // --- WORKSTATION DE EMISSÃO ---
+        // --- WORKSTATION & EMISSÃO ---
         function openEmissionWorkstation(id) {
             const client = clients.find(c => c.id === id);
             if (!client) return;
 
             currentActiveWorkstationClientId = id;
-
             document.getElementById('workstationPrestadorTitle').textContent = client.empresa;
             document.getElementById('workstationPrestadorCnpj').textContent = `CNPJ DO PRESTADOR: ${client.cnpjPrestador || "Não registado"}`;
             document.getElementById('workstationCityBadge').textContent = client.municipio || "São Paulo/SP";
             
             const portalBadge = document.getElementById('workstationPortalBadge');
-            if(client.tipoPortal === 'Nacional') {
-                portalBadge.classList.remove('hidden');
-            } else {
-                portalBadge.classList.add('hidden');
-            }
+            if(client.tipoPortal === 'Nacional') portalBadge.classList.remove('hidden');
+            else portalBadge.classList.add('hidden');
 
             const portalBtn = document.getElementById('workstationPortalLinkInCard');
             if (client.portal) {
@@ -1517,30 +1497,24 @@
             selector.innerHTML = '';
 
             const tomadores = [...(client.tomadores || [])].sort((a, b) => a.apelido.localeCompare(b.apelido, 'pt-BR'));
-
             const slaWarningBox = document.getElementById('slaWarningBox');
-            slaWarningBox.innerHTML = '';
-            slaWarningBox.classList.add('hidden');
+            slaWarningBox.innerHTML = ''; slaWarningBox.classList.add('hidden');
 
             if (tomadores.length === 0) {
                 selector.innerHTML = '<option value="">Nenhum tomador registado. Cadastre ao lado!</option>';
                 document.getElementById('workstationGridPanels').classList.add('opacity-40', 'pointer-events-none');
                 document.getElementById('workstationStatusSelect').disabled = true;
-                
                 document.getElementById('workstationTomadorApelido').textContent = "SEM APELIDO";
                 document.getElementById('workstationTomadorNome').textContent = "N/A";
                 document.getElementById('workstationTomadorCnpj').textContent = "00.000.000/0000-00";
                 document.getElementById('workstationTomadorMunicipio').textContent = "N/A";
-                
                 document.getElementById('workstationLocalIncidencia').textContent = "N/A";
                 document.getElementById('workstationNaturezaOperacao').textContent = "N/A";
                 document.getElementById('workstationCodServico').textContent = "N/A";
-
                 document.getElementById('workstationValor').textContent = "R$ 0,00";
                 document.getElementById('workstationDia').textContent = "Livre";
                 document.getElementById('workstationVersao').textContent = client.versaoSistema || "N/A";
                 document.getElementById('workstationDiscriminacao').textContent = "Registe um tomador.";
-                
                 document.getElementById('workstationSpV2Container').classList.add('hidden');
                 return;
             }
@@ -1571,18 +1545,16 @@
                 slaWarningBox.innerHTML = `<div class="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800/50 text-amber-700 dark:text-amber-400 px-3 py-2 rounded-lg text-xs font-bold flex items-center gap-2"><i data-lucide="clock" class="w-4 h-4"></i> Vence Hoje! Emita a nota ainda hoje. (Alvo: ${tomador.diaFaturamento})</div>`;
                 slaWarningBox.classList.remove('hidden');
             } else if (slaStatus && slaStatus.tipo === 'alerta') {
-                slaWarningBox.innerHTML = `<div class="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800/50 text-yellow-700 dark:text-yellow-400 px-3 py-2 rounded-lg text-xs font-bold flex items-center gap-2"><i data-lucide="calendar-clock" class="w-4 h-4"></i> Atenção: Vence in ${slaStatus.diff} dia(s)! Prepare-se para emitir. (Alvo: ${tomador.diaFaturamento})</div>`;
+                slaWarningBox.innerHTML = `<div class="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800/50 text-yellow-700 dark:text-yellow-400 px-3 py-2 rounded-lg text-xs font-bold flex items-center gap-2"><i data-lucide="calendar-clock" class="w-4 h-4"></i> Atenção: Vence em ${slaStatus.diff} dia(s)! Prepare-se para emitir. (Alvo: ${tomador.diaFaturamento})</div>`;
                 slaWarningBox.classList.remove('hidden');
             } else {
-                slaWarningBox.innerHTML = '';
-                slaWarningBox.classList.add('hidden');
+                slaWarningBox.innerHTML = ''; slaWarningBox.classList.add('hidden');
             }
 
             document.getElementById('workstationTomadorApelido').textContent = tomador.apelido || 'SEM APELIDO';
             document.getElementById('workstationTomadorNome').textContent = tomador.nomeTomador || 'Não Registado';
             document.getElementById('workstationTomadorCnpj').textContent = tomador.cnpjTomador || '00.000.000/0000-00';
             document.getElementById('workstationTomadorMunicipio').textContent = tomador.municipio || 'N/A';
-
             document.getElementById('workstationLocalIncidencia').textContent = tomador.localIncidencia || 'Tributado em São Paulo';
             document.getElementById('workstationNaturezaOperacao').textContent = tomador.naturezaOperacao || 'Normal';
             document.getElementById('workstationCodServico').textContent = tomador.codServico || '17.02';
@@ -1596,14 +1568,12 @@
                 document.getElementById('workstationCodIndOper').textContent = tomador.codIndOper || 'N/A';
                 document.getElementById('workstationCodNbs').textContent = tomador.codNbs || 'N/A';
                 document.getElementById('workstationCodNcm').textContent = tomador.codNcm || 'N/A';
-
                 document.getElementById('wsPis').textContent = tomador.valPis || '0%';
                 document.getElementById('wsCofins').textContent = tomador.valCofins || '0%';
                 document.getElementById('wsCsll').textContent = tomador.valCsll || '0%';
                 document.getElementById('wsIr').textContent = tomador.valIr || '0%';
                 document.getElementById('wsInss').textContent = tomador.valInss || '0%';
                 document.getElementById('wsIssRetido').textContent = tomador.issRetido || 'Não';
-
                 spV2Panel.classList.remove('hidden');
             } else {
                 spV2Panel.classList.add('hidden');
@@ -1621,7 +1591,6 @@
             document.getElementById('workstationDia').textContent = tomador.diaFaturamento || 'Livre';
             document.getElementById('workstationVersao').textContent = client.versaoSistema || 'N/A';
             document.getElementById('workstationDiscriminacao').textContent = tomador.discriminacao || 'Nenhuma descrição registada.';
-
             document.getElementById('workstationStatusSelect').value = tomador.status || 'pendente';
             lucide.createIcons();
         }
@@ -1681,7 +1650,7 @@
             setTimeout(() => toast.classList.add('hidden'), 2500);
         }
 
-        // --- PRESTADOR MODAL ---
+        // --- PRESTADOR FORM LOGIC ---
         function openModal(id = null) {
             document.getElementById('clientForm').reset();
             masks.cnpjPrestador.value = '';
@@ -1761,7 +1730,7 @@
             }
         }
 
-        // --- TOMADOR MODAL ---
+        // --- TOMADOR FORM LOGIC ---
         function openTomadorModal(editMode = false) {
             const client = clients.find(c => c.id === currentActiveWorkstationClientId);
             if (!client) return;
@@ -1769,7 +1738,6 @@
             document.getElementById('tomadorForm').reset();
             masks.cnpjTomador.value = ''; 
             document.getElementById('formTomadorValor').value = '';
-            
             document.getElementById('formTomadorTipoRetencao').value = '';
             document.getElementById('formTomadorClassTrib').value = '';
             document.getElementById('formTomadorIndOper').value = '';
@@ -1781,14 +1749,11 @@
             document.getElementById('formTomadorIr').value = '';
             document.getElementById('formTomadorInss').value = '';
             document.getElementById('formTomadorIssRetido').value = 'Não';
-            
+
             const isSpV2 = client.municipio && client.municipio.toLowerCase().includes('paulo') && client.versaoSistema === 'Versão 2';
             const spV2Container = document.getElementById('spV2ModalContainer');
-            if (isSpV2) {
-                spV2Container.classList.remove('hidden');
-            } else {
-                spV2Container.classList.add('hidden');
-            }
+            if (isSpV2) spV2Container.classList.remove('hidden');
+            else spV2Container.classList.add('hidden');
 
             if (editMode) {
                 const tomId = document.getElementById('workstationTomadorSelector').value;
@@ -1852,7 +1817,6 @@
                 diaFaturamento: document.getElementById('formTomadorDia').value,
                 discriminacao: document.getElementById('formTomadorDiscriminacao').value,
                 status: tomId ? (clients[clientIndex].tomadores.find(t => t.id === tomId)?.status || 'pendente') : 'pendente',
-                
                 tipoRetencao: document.getElementById('formTomadorTipoRetencao').value,
                 codClassTrib: document.getElementById('formTomadorClassTrib').value,
                 codIndOper: document.getElementById('formTomadorIndOper').value,
@@ -1865,6 +1829,7 @@
                 valInss: document.getElementById('formTomadorInss').value,
                 issRetido: document.getElementById('formTomadorIssRetido').value
             };
+
             if (tomId) {
                 const idx = clients[clientIndex].tomadores.findIndex(t => t.id === tomId);
                 if (idx !== -1) clients[clientIndex].tomadores[idx] = data;
@@ -1893,44 +1858,7 @@
             });
         }
 
-        // --- MANUAIS COMPLETO ---
-        function openPassoAPassoFullScreen() {
-            const city = document.getElementById('passoPrefeituraSelector').value;
-            if (!city) return;
-
-            document.getElementById('passoFullScreenTitle').textContent = `Manual - ${city}`;
-
-            const viewContainer = document.getElementById('passoFullScreenContent');
-            const editTextarea = document.getElementById('passoFullScreenTextarea');
-            const btnSave = document.getElementById('passoFullScreenSaveBtn');
-            const editBtnLabel = document.getElementById('passoFullScreenEditLabel');
-            const editBtnIcon = document.getElementById('passoFullScreenEditIcon');
-
-            viewContainer.textContent = prefeituraPassos[city] || "Sem conteúdo.";
-            editTextarea.value = prefeituraPassos[city] || "";
-
-            viewContainer.classList.remove('hidden');
-            editTextarea.classList.add('hidden');
-            btnSave.classList.add('hidden');
-            editBtnLabel.textContent = "Editar";
-            editBtnIcon.setAttribute('data-lucide', 'edit');
-
-            document.getElementById('mainDashboardView').classList.add('hidden');
-            document.getElementById('headerActions').classList.add('hidden');
-            document.getElementById('passoAPassoFullScreenView').classList.remove('hidden');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            lucide.createIcons();
-        }
-
-        function closePassoAPassoFullScreen() {
-            document.getElementById('passoAPassoFullScreenView').classList.add('hidden');
-            document.getElementById('mainDashboardView').classList.remove('hidden');
-            document.getElementById('headerActions').classList.remove('hidden');
-            document.getElementById('passoPrefeituraSelector').value = "";
-            renderTable();
-        }
-
-        // --- MODALS DE DIÁLOGO CUSTOMIZADOS ---
+        // --- ALERTAS E EXPORTAÇÃO ---
         function showCustomAlert(title, message) {
             document.getElementById('customAlertTitle').textContent = title;
             document.getElementById('customAlertMessage').textContent = message;
@@ -1979,30 +1907,5 @@
             reader.readAsText(file);
         }
     </script>
-
-    <div id="passoAPassoFullScreenView" class="hidden w-full flex-1 px-4 sm:px-6 lg:px-8 xl:px-10 py-6 flex flex-col gap-6">
-        <div class="flex justify-between items-center bg-white dark:bg-[#111111] border border-slate-200 dark:border-zinc-800 p-4 rounded-xl shadow-sm">
-            <div class="flex items-center space-x-3">
-                <button onclick="closePassoAPassoFullScreen()" class="p-2 bg-slate-100 dark:bg-zinc-800 rounded-lg"><i data-lucide="arrow-left" class="w-5 h-5"></i></button>
-                <h2 id="passoFullScreenTitle" class="text-lg font-bold">Manual</h2>
-            </div>
-            <div class="flex gap-2">
-                <button id="passoFullScreenEditBtn" onclick="toggleEditPassoFullScreen()" class="px-3 py-1.5 bg-slate-100 dark:bg-zinc-800 rounded-lg text-xs font-bold flex items-center gap-1">
-                    <i id="passoFullScreenEditIcon" data-lucide="edit" class="w-4 h-4"></i><span id="passoFullScreenEditLabel">Editar</span>
-                </button>
-                <button id="passoFullScreenSaveBtn" onclick="savePassoAPassoFullScreen()" class="px-3 py-1.5 bg-brand-600 text-white rounded-lg text-xs font-bold hidden">Salvar</button>
-            </div>
-        </div>
-        <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
-            <div class="lg:col-span-3 bg-white dark:bg-[#111111] p-6 rounded-xl border border-slate-200 dark:border-zinc-800 shadow-sm">
-                <pre id="passoFullScreenContent" class="whitespace-pre-wrap font-mono text-xs text-slate-700 dark:text-zinc-300 bg-slate-50 dark:bg-black p-4 rounded-lg border border-slate-100 dark:border-zinc-900 custom-scrollbar"></pre>
-                <textarea id="passoFullScreenTextarea" class="w-full h-96 font-mono text-xs p-4 bg-white dark:bg-zinc-900 text-slate-900 dark:text-white border border-slate-200 dark:border-zinc-700 rounded-lg focus:ring-2 focus:ring-brand-500 hidden outline-none"></textarea>
-            </div>
-            <div class="bg-white dark:bg-[#111111] p-4 rounded-xl border border-slate-200 dark:border-zinc-800 shadow-sm h-fit">
-                <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">Prestadores Vinculados</h4>
-                <div id="passoFullScreenPrestadoresList" class="space-y-2"></div>
-            </div>
-        </div>
-    </div>
 </body>
 </html>
