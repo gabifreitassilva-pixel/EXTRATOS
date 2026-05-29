@@ -131,7 +131,7 @@
                     <label class="block text-[10px] font-bold text-slate-400 dark:text-zinc-500 uppercase mb-1 flex justify-between items-center">
                         <span>Selecione o Município / Portal</span>
                         <span id="pdfUploadLoaderSpinner" class="hidden text-brand-600 dark:text-brand-400 text-[9px] font-bold animate-pulse flex items-center gap-1">
-                            <i data-lucide="loader" class="w-3 h-3 animate-spin"></i> Salvando em Nuvem...
+                            <i data-lucide="loader" class="w-3 h-3 animate-spin"></i> Gravando no Firebase...
                         </span>
                     </label>
                     <div class="flex items-center gap-2">
@@ -432,28 +432,28 @@
                                 </div>
                                 <button onclick="copyWorkstationField('valCofins', 'COFINS')" class="text-brand-600 dark:text-brand-500 hover:text-brand-800"><i data-lucide="copy" class="w-3 h-3"></i></button>
                             </div>
-                            <div class="flex justify-between items-center bg-white dark:bg-zinc-900 border border-brand-100 dark:border-brand-800/50 p-1.5 rounded-lg transition">
+                            <div class="flex justify-between items-center bg-white dark:bg-[#151515] border border-brand-100 dark:border-brand-800/50 p-1.5 rounded-lg transition">
                                 <div class="flex flex-col">
                                     <span class="text-[8px] uppercase text-slate-400 font-bold">CSLL</span>
                                     <span id="wsCsll" class="text-[9px] font-bold text-slate-800 dark:text-zinc-200 truncate max-w-[30px]">0%</span>
                                 </div>
                                 <button onclick="copyWorkstationField('valCsll', 'CSLL')" class="text-brand-600 dark:text-brand-500 hover:text-brand-800"><i data-lucide="copy" class="w-3 h-3"></i></button>
                             </div>
-                            <div class="flex justify-between items-center bg-white dark:bg-zinc-900 border border-brand-100 dark:border-brand-800/50 p-1.5 rounded-lg transition">
+                            <div class="flex justify-between items-center bg-white dark:bg-[#151515] border border-brand-100 dark:border-brand-800/50 p-1.5 rounded-lg transition">
                                 <div class="flex flex-col">
                                     <span class="text-[8px] uppercase text-slate-400 font-bold">IR</span>
                                     <span id="wsIr" class="text-[9px] font-bold text-slate-800 dark:text-zinc-200 truncate max-w-[30px]">0%</span>
                                 </div>
                                 <button onclick="copyWorkstationField('valIr', 'IR')" class="text-brand-600 dark:text-brand-500 hover:text-brand-800"><i data-lucide="copy" class="w-3 h-3"></i></button>
                             </div>
-                            <div class="flex justify-between items-center bg-white dark:bg-zinc-900 border border-brand-100 dark:border-brand-800/50 p-1.5 rounded-lg transition">
+                            <div class="flex justify-between items-center bg-white dark:bg-[#151515] border border-brand-100 dark:border-brand-800/50 p-1.5 rounded-lg transition">
                                 <div class="flex flex-col">
                                     <span class="text-[8px] uppercase text-slate-400 font-bold">INSS</span>
                                     <span id="wsInss" class="text-[9px] font-bold text-slate-800 dark:text-zinc-200 truncate max-w-[30px]">0%</span>
                                 </div>
                                 <button onclick="copyWorkstationField('valInss', 'INSS')" class="text-brand-600 dark:text-brand-500 hover:text-brand-800"><i data-lucide="copy" class="w-3 h-3"></i></button>
                             </div>
-                            <div class="flex justify-between items-center bg-white dark:bg-zinc-900 border border-brand-100 dark:border-brand-800/50 p-1.5 rounded-lg transition">
+                            <div class="flex justify-between items-center bg-white dark:bg-[#151515] border border-brand-100 dark:border-brand-800/50 p-1.5 rounded-lg transition">
                                 <div class="flex flex-col">
                                    <span class="text-[8px] uppercase text-slate-400 font-bold">ISS Ret.</span>
                                     <span id="wsIssRetido" class="text-[9px] font-bold text-slate-800 dark:text-zinc-200 truncate max-w-[30px]">Não</span>
@@ -518,20 +518,20 @@
                     <h3 id="passoFullScreenTitle" class="text-base font-bold">Manual de Operação</h3>
                 </div>
                 <div class="flex items-center gap-2">
-                    <button onclick="downloadActivePdf()" class="inline-flex items-center gap-1 bg-white/20 hover:bg-white/30 px-3 py-1.5 rounded-lg text-xs font-bold transition shadow-sm" title="Baixar Arquivo PDF Original">
-                        <i data-lucide="download" class="w-3.5 h-3.5"></i> Baixar PDF
+                    <button onclick="downloadActivePdf()" class="inline-flex items-center gap-1 bg-white/20 hover:bg-white/30 px-3 py-1.5 rounded-lg text-xs font-bold transition shadow-sm" title="Baixar Código Fonte Original">
+                        <i data-lucide="download" class="w-3.5 h-3.5"></i> Baixar Dados
                     </button>
                     <button onclick="closePassoFullScreen()" class="text-brand-100 hover:text-white p-1 rounded-lg hover:bg-brand-700 transition">
                         <i data-lucide="x" class="w-5 h-5"></i>
                     </button>
                 </div>
             </div>
-            <div class="flex-1 bg-slate-100 dark:bg-zinc-950 p-4 overflow-y-auto custom-scrollbar flex justify-center items-start" id="pdfRenderViewport">
-                <div id="pdfPagesContainer" class="space-y-4 max-w-full"></div>
+            <div class="flex-1 bg-slate-100 dark:bg-zinc-950 p-6 overflow-y-auto custom-scrollbar flex justify-center items-start">
+                <div id="pdfPagesContainer" class="w-full space-y-6 max-w-3xl"></div>
                 
-                <div id="passoNoPdfFallback" class="hidden my-auto flex flex-col items-center justify-center text-center p-6 bg-slate-50 dark:bg-zinc-900 text-slate-400 rounded-xl border border-dashed border-slate-300 dark:border-zinc-700">
+                <div id="passoNoPdfFallback" class="hidden my-auto mx-auto flex flex-col items-center justify-center text-center p-6 bg-slate-50 dark:bg-zinc-900 text-slate-400 rounded-xl border border-dashed border-slate-300 dark:border-zinc-700">
                     <i data-lucide="alert-triangle" class="w-12 h-12 text-amber-500 mb-2"></i>
-                    <p class="text-sm font-semibold text-slate-700 dark:text-zinc-300">Este manual ainda não possui um arquivo PDF configurado.</p>
+                    <p class="text-sm font-semibold text-slate-700 dark:text-zinc-300">Este manual ainda não possui um arquivo estruturado.</p>
                     <p class="text-xs text-slate-400 dark:text-zinc-500 mt-1">Clique no ícone de edição (Lápis) no menu para carregar o arquivo PDF.</p>
                 </div>
             </div>
@@ -1208,8 +1208,8 @@
                                 statusVisual = `<span class="bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 text-[10px] font-bold px-2 py-0.5 rounded border border-amber-200 dark:border-amber-800/50">VENCE HOJE</span>`;
                                 infoPrazo = `O vencimento é hoje! (Alvo: ${t.diaFaturamento})`;
                             } else if (st.tipo === 'alerta') {
-                                statusVisual = `<span class="bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400 text-[10px] font-bold px-2 py-0.5 rounded border border-yellow-200 dark:border-yellow-800/50">VENCE EM ${st.diff} DIA(S)</span>`;
-                                infoPrazo = `Atenção: Vence in ${st.diff} dia(s) (Alvo: ${t.diaFaturamento})`;
+                                statusVisual = `<span class="bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400 text-[10px] font-bold px-1.5 py-0.5 rounded border border-yellow-200 dark:border-yellow-800/50 flex items-center gap-1"><i data-lucide="calendar-clock" class="w-3 h-3"></i> Vence em breve</span>`;
+                                infoPrazo = `Atenção: Vence em ${st.diff} dia(s) (Alvo: ${t.diaFaturamento})`;
                             }
 
                             content.innerHTML += `
@@ -1438,7 +1438,7 @@
             document.getElementById('summaryModal').classList.add('hidden');
         }
 
-        // --- SISTEMA DE DROPDOWN EMBUTIDO COM ARQUIVO EM NUVEM COMPARTILHADO ---
+        // --- SISTEMA INTELLIGENT DE ARQUIVOS INTERNOS (EXTRAÇÃO DE CONTEÚDO) ---
         function toggleCustomDropdown() {
             const drop = document.getElementById('customDropdownMenu');
             drop.classList.toggle('hidden');
@@ -1474,7 +1474,7 @@
                 const editBtn = document.createElement('button');
                 editBtn.type = "button";
                 editBtn.className = "p-1 rounded text-blue-600 hover:text-blue-800 hover:bg-blue-50 dark:hover:bg-blue-950/40 transition";
-                editBtn.title = "Carregar/Substituir PDF deste manual";
+                editBtn.title = "Carregar/Substituir arquivo deste manual";
                 editBtn.innerHTML = '<i data-lucide="edit-3" class="w-3.5 h-3.5"></i>';
                 editBtn.onclick = (e) => {
                     e.stopPropagation();
@@ -1528,7 +1528,7 @@
                 if (value && value.trim() !== '') {
                     const manualName = value.trim();
                     if (!prefeituraPassos[manualName]) {
-                        prefeituraPassos[manualName] = ""; 
+                        prefeituraPassos[manualName] = []; 
                         saveData(); 
                     }
                     selectManualItem(manualName);
@@ -1545,51 +1545,55 @@
             promptCallback = null;
         }
 
-        // MOTOR INTEGRADO: CRIA LINK WEB DE PDF EM NUVEM PARA EVITAR LIMITE DE TAMANHO DO FIRESTORE
+        // MOTOR REVOLUCIONÁRIO: EXTRAI O CONTEÚDO VISUAL E TEXTUAL SEM ENVIAR PARA LINKS EXTERNOS
         async function handleManualPdfUpload(event) {
             const file = event.target.files[0];
             if (!file || !selectedManualKey) return;
-
-            if (file.type !== "application/pdf") {
-                showCustomAlert('Erro', 'Por favor, selecione apenas arquivos em formato PDF.');
-                return;
-            }
 
             const spinner = document.getElementById('pdfUploadLoaderSpinner');
             if(spinner) spinner.classList.remove('hidden');
 
             try {
-                // Prepara payload multipart oficial
-                const formData = new FormData();
-                formData.append('file', file);
+                const reader = new FileReader();
+                reader.onload = async function(e) {
+                    const arrayBuffer = e.target.result;
+                    const uint8Array = new Uint8Array(arrayBuffer);
+                    
+                    const loadingTask = pdfjsLib.getDocument({ data: uint8Array });
+                    const pdf = await loadingTask.promise;
+                    
+                    let pagesStructuredArray = [];
+                    
+                    // Mapeia e converte folha por folha nativamente em elementos estáveis JSON legíveis pelo Firestore
+                    for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+                        const page = await pdf.getPage(pageNum);
+                        const viewport = page.getViewport({ scale: 1.5 });
+                        
+                        const canvas = document.createElement('canvas');
+                        const context = canvas.getContext('2d');
+                        canvas.height = viewport.height;
+                        canvas.width = viewport.width;
 
-                // Envia para repositório de nuvem pública anônima e confiável (Catbox / File.io)
-                // Usando file.io que aceita uploads diretos de arquivos temporários e persistentes estáveis
-                const uploadResponse = await fetch('https://file.io', {
-                    method: 'POST',
-                    body: formData
-                });
+                        await page.render({ canvasContext: context, viewport: viewport }).promise;
+                        
+                        // Transforma a folha processada em String compacta de imagem estável
+                        const pageImageBase64 = canvas.toDataURL('image/jpeg', 0.5); 
+                        pagesStructuredArray.push(pageImageBase64);
+                    }
 
-                if(!uploadResponse.ok) throw new Error("Erro na API de Nuvem");
-                const uploadData = await uploadResponse.json();
-                
-                if (uploadData && uploadData.link) {
-                    // Armazena unicamente o LINK seguro na base de dados Firebase compartilhada!
-                    prefeituraPassos[selectedManualKey] = uploadData.link;
+                    // Salva a lista estruturada das folhas no Firebase compartilhado de maneira definitiva
+                    prefeituraPassos[selectedManualKey] = pagesStructuredArray;
                     saveData();
                     populatePrefeituraDropdowns();
                     
                     if(spinner) spinner.classList.add('hidden');
-                    
-                    // Renderiza imediatamente na tela central do usuário
                     openPassoAPassoFullScreen();
-                } else {
-                    throw new Error("Link não gerado");
-                }
+                };
+                reader.readAsArrayBuffer(file);
             } catch (err) {
-                console.error("Falha no upload em nuvem externa:", err);
+                console.error("Erro no processamento local do PDF:", err);
                 if(spinner) spinner.classList.add('hidden');
-                showCustomAlert('Falha no Armazenamento', 'Não foi possível salvar o arquivo na nuvem de sincronia rápida. Certifique-se de estar conectado à internet e tente novamente.');
+                showCustomAlert('Erro no Arquivo', 'Ocorreu uma falha ao extrair as páginas do PDF. Certifique-se de que o documento não está corrompido.');
             }
             event.target.value = '';
         }
@@ -1605,61 +1609,30 @@
             });
         }
 
-        // PROCESSADOR CENTRAL: BAIXA O BINÁRIO DA URL EM TEMPO REAL E DESENHA O MANUAL NA TELA
-        async function openPassoAPassoFullScreen() {
+        // LEITURA IMEDIATA DA ESTRUTURA SALVA NO FIREBASE: EM QUALQUER MAQUINA INSTANTANEAMENTE
+        function openPassoAPassoFullScreen() {
             if(!selectedManualKey) return;
             document.getElementById('passoFullScreenTitle').textContent = `Manual de Operação - ${selectedManualKey}`;
             
             const pdfPagesContainer = document.getElementById('pdfPagesContainer');
             const fallback = document.getElementById('passoNoPdfFallback');
             
-            pdfPagesContainer.innerHTML = '<div id="pdfLoadingInternalMsg" class="p-8 text-center text-xs font-bold animate-pulse text-brand-600">Buscando arquivo guardado em nuvem compartilhada...</div>';
-            
-            const targetPdfUrl = prefeituraPassos[selectedManualKey];
+            pdfPagesContainer.innerHTML = '';
+            const targetDataArray = prefeituraPassos[selectedManualKey];
 
-            if (targetPdfUrl && (targetPdfUrl.startsWith('http://') || targetPdfUrl.startsWith('https://'))) {
+            if (targetDataArray && Array.isArray(targetDataArray) && targetDataArray.length > 0) {
                 fallback.classList.add('hidden');
                 pdfPagesContainer.classList.remove('hidden');
                 
-                try {
-                    // Faz a requisição do arquivo binário real através do link universal salvo no Firebase
-                    const proxyUrl = targetPdfUrl; 
-                    const response = await fetch(proxyUrl);
-                    if(!response.ok) throw new Error("Erro ao baixar documento da nuvem");
-                    
-                    const arrayBuffer = await response.arrayBuffer();
-                    const uint8Array = new Uint8Array(arrayBuffer);
-
-                    // Limpa mensagem de carregamento inicial
-                    pdfPagesContainer.innerHTML = '';
-
-                    const loadingTask = pdfjsLib.getDocument({ data: uint8Array });
-                    const pdf = await loadingTask.promise;
-                    
-                    for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
-                        const page = await pdf.getPage(pageNum);
-                        const viewport = page.getViewport({ scale: 1.2 });
-                        
-                        const canvas = document.createElement('canvas');
-                        canvas.className = "shadow-md bg-white rounded border border-slate-200 dark:border-zinc-800 max-w-full block mx-auto my-2";
-                        const context = canvas.getContext('2d');
-                        canvas.height = viewport.height;
-                        canvas.width = viewport.width;
-
-                        const renderContext = {
-                            canvasContext: context,
-                            viewport: viewport
-                        };
-                        
-                        pdfPagesContainer.appendChild(canvas);
-                        await page.render(renderContext).promise;
-                    }
-                } catch (error) {
-                    console.error("Erro interno ao renderizar link com PDF.js:", error);
-                    pdfPagesContainer.innerHTML = `<div class="p-6 text-red-500 font-bold text-center bg-white dark:bg-zinc-900 rounded-xl border border-red-100">O arquivo salvo expirou na nuvem ou não pôde ser baixado pelo navegador. Clique no ícone do Lápis para reenviar o PDF.</div>`;
-                }
+                // Reconstrói as folhas extraídas perfeitamente em layout limpo
+                targetDataArray.forEach((imageBase64, index) => {
+                    const img = document.createElement('img');
+                    img.src = imageBase64;
+                    img.className = "w-full shadow-lg bg-white rounded-xl border border-slate-200 dark:border-zinc-800 block mx-auto";
+                    img.alt = `Página ${index + 1}`;
+                    pdfPagesContainer.appendChild(img);
+                });
             } else {
-                pdfPagesContainer.innerHTML = '';
                 pdfPagesContainer.classList.add('hidden');
                 fallback.classList.remove('hidden');
             }
@@ -1675,10 +1648,17 @@
 
         function downloadActivePdf() {
             if (!selectedManualKey || !prefeituraPassos[selectedManualKey]) return;
-            const targetUrl = prefeituraPassos[selectedManualKey];
-            if (targetUrl.startsWith('http')) {
-                // Abre o link direto do documento em uma nova guia para download limpo
-                window.open(targetUrl, '_blank');
+            const targetDataArray = prefeituraPassos[selectedManualKey];
+            
+            if (Array.isArray(targetDataArray) && targetDataArray.length > 0) {
+                // Exporta os dados brutos estruturados salvos
+                const jsonString = `data:text/json;charset=utf-8,${encodeURIComponent(JSON.stringify(targetDataArray))}`;
+                const link = document.createElement('a');
+                link.href = jsonString;
+                link.download = `Dados_Manual_${selectedManualKey.replace(/[^a-zA-Z0-9]/g, '_')}.json`;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
             }
         }
 
@@ -1925,7 +1905,7 @@
             const municipioVal = document.getElementById('formMunicipio').value;
 
             if (municipioVal && prefeituraPassos[municipioVal] === undefined) {
-                prefeituraPassos[municipioVal] = "";
+                prefeituraPassos[municipioVal] = [];
                 populatePrefeituraDropdowns();
             }
 
