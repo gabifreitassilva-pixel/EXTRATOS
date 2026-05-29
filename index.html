@@ -52,7 +52,7 @@
                 </div>
                 <div class="flex items-center space-x-3" id="headerActions">
                     <button onclick="toggleTheme()" class="p-2 text-slate-500 hover:text-brand-600 dark:text-zinc-400 dark:hover:text-brand-500 transition rounded-lg hover:bg-slate-100 dark:hover:bg-zinc-800" title="Alternar Tema">
-                        <i id="themeIcon" data-lucide="sun" class="w-5 h-5"></i>
+                        <i id="themeIcon" data-lucide="moon" class="w-5 h-5"></i>
                     </button>
                     <button onclick="exportToCSV()" class="inline-flex items-center space-x-2 bg-zinc-800 dark:bg-zinc-200 hover:bg-black dark:hover:bg-white text-white dark:text-black px-4 py-2 rounded-lg text-sm font-bold transition shadow-sm">
                         <i data-lucide="download" class="w-4 h-4"></i>
@@ -123,22 +123,25 @@
                 </div>
                 <div class="relative">
                     <label class="block text-[10px] font-bold text-slate-400 dark:text-zinc-500 uppercase mb-1">Selecione o Município / Portal</label>
-                    
-                    <div class="flex gap-2">
-                        <div id="customDropdownTrigger" onclick="toggleCustomDropdown()" class="w-full px-2.5 py-1.5 border border-slate-200 dark:border-zinc-700 rounded-lg text-xs bg-white dark:bg-zinc-900 font-semibold text-slate-800 dark:text-white focus:ring-2 focus:ring-brand-500 outline-none cursor-pointer flex justify-between items-center select-none truncate">
-                            <span id="customDropdownSelectedText">Escolha um Município...</span>
-                            <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400"></i>
+                    <div class="flex items-center gap-2">
+                        <div class="relative flex-1">
+                            <button type="button" onclick="toggleCustomDropdown()" id="customDropdownTrigger" class="w-full flex items-center justify-between px-3 py-1.5 border border-slate-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 rounded-lg text-xs font-semibold text-slate-800 dark:text-white focus:ring-2 focus:ring-brand-500 outline-none transition-all">
+                                <span id="customDropdownSelectedText" class="truncate">Escolha um Município...</span>
+                                <i data-lucide="chevron-down" class="w-3.5 h-3.5 opacity-60 shrink-0 ml-1"></i>
+                            </button>
+                            
+                            <div id="customDropdownMenu" class="hidden absolute left-0 right-0 top-full mt-1 bg-white dark:bg-[#151515] border border-slate-200 dark:border-zinc-800 rounded-xl shadow-xl z-50 overflow-hidden">
+                                <div id="customDropdownOptionsList" class="max-h-60 overflow-y-auto custom-scrollbar divide-y divide-slate-100 dark:divide-zinc-800/50">
+                                    </div>
+                            </div>
                         </div>
-                        
-                        <button onclick="askNewManualName()" class="bg-brand-50 dark:bg-brand-900/30 hover:bg-brand-100 dark:hover:bg-brand-900/50 text-brand-600 dark:text-brand-400 border border-brand-200 dark:border-brand-800 px-2.5 py-1.5 rounded-lg transition shrink-0 flex items-center gap-1 font-bold text-xs" title="Criar Novo Passo a Passo">
-                            <i data-lucide="plus" class="w-4 h-4"></i>
-                            <span>+ Incluir</span>
+
+                        <button onclick="askNewManualName()" class="inline-flex items-center gap-1 bg-brand-50 dark:bg-brand-900/30 hover:bg-brand-100 dark:hover:bg-brand-900/50 text-brand-700 dark:text-brand-400 border border-brand-200 dark:border-brand-800 px-3 py-1.5 rounded-lg text-xs font-bold transition shadow-sm shrink-0" title="Criar Novo Passo a Passo">
+                            <i data-lucide="plus" class="w-3.5 h-3.5"></i> Incluir
                         </button>
                     </div>
-
-                    <div id="customDropdownList" class="hidden absolute left-0 right-0 mt-1 bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-700 rounded-lg shadow-lg z-50 max-h-60 overflow-y-auto custom-scrollbar">
-                        </div>
                 </div>
+                <input type="file" id="manualPdfFileInput" accept="application/pdf" class="hidden" onchange="handleManualPdfUpload(event)">
             </div>
 
             <div id="clipboardToast" class="hidden bg-emerald-50 dark:bg-emerald-900/30 border border-emerald-200 dark:border-emerald-800/50 text-emerald-800 dark:text-emerald-400 text-xs p-3 rounded-lg flex items-start gap-2 transition-all duration-300 shadow-sm">
@@ -491,6 +494,33 @@
                             </button>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="passoFullScreenModal" class="fixed inset-0 bg-slate-900/70 dark:bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 hidden p-4 transition-opacity">
+        <div class="bg-white dark:bg-[#111111] rounded-2xl border border-slate-200 dark:border-zinc-800 w-full max-w-4xl h-[90vh] overflow-hidden shadow-2xl flex flex-col transition-colors">
+            <div class="p-5 border-b border-slate-100 dark:border-zinc-800 flex justify-between items-center bg-brand-600 text-white">
+                <div class="flex items-center gap-3">
+                    <i data-lucide="file-text" class="w-5 h-5"></i>
+                    <h3 id="passoFullScreenTitle" class="text-base font-bold">Manual de Operação</h3>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button onclick="downloadActivePdf()" class="inline-flex items-center gap-1 bg-white/20 hover:bg-white/30 px-3 py-1.5 rounded-lg text-xs font-bold transition shadow-sm" title="Baixar Arquivo PDF Original">
+                        <i data-lucide="download" class="w-3.5 h-3.5"></i> Baixar PDF
+                    </button>
+                    <button onclick="closePassoFullScreen()" class="text-brand-100 hover:text-white p-1 rounded-lg hover:bg-brand-700 transition">
+                        <i data-lucide="x" class="w-5 h-5"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="flex-1 bg-slate-100 dark:bg-zinc-950 relative w-full h-full">
+                <iframe id="passoFullScreenIframe" class="w-full h-full border-0 absolute inset-0 bg-transparent" src=""></iframe>
+                <div id="passoNoPdfFallback" class="hidden absolute inset-0 flex flex-col items-center justify-center text-center p-6 bg-slate-50 dark:bg-zinc-900 text-slate-400">
+                    <i data-lucide="alert-triangle" class="w-12 h-12 text-amber-500 mb-2"></i>
+                    <p class="text-sm font-semibold text-slate-700 dark:text-zinc-300">Este manual ainda não possui um arquivo PDF configurado.</p>
+                    <p class="text-xs text-slate-400 dark:text-zinc-500 mt-1">Clique no ícone de edição (Lápis) para carregar o arquivo.</p>
                 </div>
             </div>
         </div>
@@ -872,7 +902,6 @@
         import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // Credenciais Fixas e Definitivas do seu Firebase
         const firebaseConfig = {
             apiKey: "AIzaSyAbbYgYcbe5Dmhj2ERBKV8bSpSEj-7OeaM",
             authDomain: "notafiscal-62ff4.firebaseapp.com",
@@ -887,7 +916,6 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        // Autentica anonimamente para permitir leitura e escrita segura no Firestore
         signInAnonymously(auth).catch(e => console.error("Erro na Autenticação Firebase", e));
 
         let isFirebaseInitialized = false;
@@ -895,8 +923,6 @@
         onAuthStateChanged(auth, (user) => {
             if (user && !isFirebaseInitialized) {
                 isFirebaseInitialized = true;
-                
-                // Salvando no nó fixo 'producao/mesa_operacoes' para que TODOS os computadores acessem a mesma base
                 const docRef = doc(db, 'producao', 'mesa_operacoes');
                 
                 onSnapshot(docRef, (snapshot) => {
@@ -967,15 +993,11 @@
         }
 
         // --- DADOS INICIAIS ---
-        let initialPrefeituraPassos = {
-            "Portal Nacional": `M A N U A L   D E   E M I S S Ã O   ( S. O. P. )  -  P O R T A L   N A C I O N A L\n=======================================================================\n\nPASSO 1: ACESSO AO SISTEMA (LOGIN GOV.BR)\n-----------------------------------------------------------------------\n1. Na nossa Mesa de Operações, aceda ao Portal Nacional da NFS-e.\n2. Escolha o certificado digital correspondente ou utilize os dados de acesso da empresa (Gov.br).\n\nPASSO 2: EMISSÃO SIMPLIFICADA OU COMPLETA\n-----------------------------------------------------------------------\n1. No painel principal, escolha a opção "Nova NFS-e".\n2. Para serviços recorrentes, utilize a Emissão Completa para preencher os dados do Tomador e do serviço detalhadamente.\n\nPASSO 3: INFORMAÇÕES GERAIS E VALORES\n-----------------------------------------------------------------------\n1. Insira o CNPJ do Tomador localizado no nosso Gestor.\n2. Verifique o Código de Tributação Nacional correspondente ao serviço.\n3. Copie o "Valor da NFS-e" e cole no campo apropriado.\n4. Copie a "Descrição dos Serviços" através do botão no Gestor e cole na área de discriminação do Portal.\n\nPASSO 4: FINALIZAR E ATUALIZAR ESTADO\n-----------------------------------------------------------------------\n1. Verifique o resumo e confirme a emissão.\n2. Volte ao Gestor Interno e altere o estado do tomador para "Nota Fiscal Emitida".`,
-            "São Paulo/SP": `M A N U A L   D E   E M I S S Ã O   ( S. O. P. )  -  S Ã O   P A U L O / S P\n=======================================================================\n\nPASSO 1: ACESSO AO SISTEMA (LOGIN)\n-----------------------------------------------------------------------\n1. Na nossa Mesa de Operações, clique no botão "Aceder Portal Direto" para abrir a Nota Fiscal Paulistana.\n2. Utilize os ícones do Gestor para copiar o "Utilizador" e a "Senha".\n3. No portal da prefeitura, cole as credenciais e clique em "Entrar".\n4. Fique atento à Versão do Sistema solicitada (V1 ou V2).\n\nPASSO 2: IDENTIFICAÇÃO DO TOMADOR (CLIENTE)\n-----------------------------------------------------------------------\n1. No menu lateral ESQUERDO do portal da prefeitura, clique em "Emissão de NFS-e".\n2. Localize a caixa "CPF/CNPJ do Tomador".\n3. Volte ao nosso Gestor, copie o "CNPJ do Tomador" e cole-o na prefeitura.\n4. Clique em "Avançar".\n\nPASSO 3: INFORMAÇÕES GERAIS DA NOTA\n-----------------------------------------------------------------------\nPreencha com exatidão os dados do bloco "Parâmetros de Emissão" do nosso Gestor:\n\n• LOCAL DA INCIDÊNCIA: Selecione na prefeitura a mesma opção listada no painel.\n• NATUREZA DA OPERAÇÃO: Selecione a opção correspondente.\n• CÓDIGO DO SERVIÇO: Digite ou pesquise na lupa o código numérico listado no Gestor.\n\nPASSO 4: VALORES E DESCRIÇÃO (CORPO DA NOTA)\n-----------------------------------------------------------------------\n1. VALOR DO SERVIÇO: Copie o "Valor da NFS-e" do Gestor e cole na prefeitura.\n2. DESCRIÇÃO DOS SERVIÇOS: Clique no botão azul "Copiar Descrição" no nosso Gestor.\n3. Role a tela da prefeitura até ao final e cole o texto na caixa "Discriminação dos Serviços".\n4. Clique no botão "Emitir" no final da página.\n\nPASSO 5: ATUALIZAR ESTADO NO GESTOR INTERNO\n-----------------------------------------------------------------------\n1. Com a nota emitida com sucesso, volte ao nosso Gestor.\n2. Clique no botão de estado "Pendente este Mês" para mudá-lo para "Nota Fiscal Emitida".\n3. O seu trabalho com este cliente está concluído!`,
-        };
-
         let clients = [];
         let prefeituraPassos = {};
         let currentActiveWorkstationClientId = null;
         let masks = {};
+        let selectedManualKey = "";
 
         // --- PERSISTÊNCIA E INICIALIZAÇÃO ---
         window.addEventListener('DOMContentLoaded', () => {
@@ -984,6 +1006,14 @@
             initMasks();
             initApp();
             setupAccessibility();
+            
+            document.addEventListener('click', (e) => {
+                const drop = document.getElementById('customDropdownMenu');
+                const trigger = document.getElementById('customDropdownTrigger');
+                if (drop && !drop.classList.contains('hidden') && !trigger.contains(e.target) && !drop.contains(e.target)) {
+                    drop.classList.add('hidden');
+                }
+            });
         });
 
         function loadLocalDataFallback() {
@@ -991,27 +1021,13 @@
             const savedPassos = localStorage.getItem('gestor_nfs_passos');
 
             if (savedClients) {
-                let parsed = JSON.parse(savedClients);
-                parsed.forEach(client => {
-                    if (client.tomadores) {
-                        client.tomadores.forEach(tomador => {
-                            if (tomador.emitido !== undefined) {
-                                tomador.status = tomador.emitido ? 'emitida' : 'pendente';
-                                delete tomador.emitido;
-                            }
-                            if (!tomador.status) tomador.status = 'pendente';
-                        });
-                    }
-                });
-                clients = parsed;
-            } else {
-                clients = [];
+                clients = JSON.parse(savedClients);
             }
-
             if (savedPassos) {
                 prefeituraPassos = JSON.parse(savedPassos);
             } else {
-                prefeituraPassos = {...initialPrefeituraPassos};
+                // Inicia vazio por padrão se não houver dados, pois agora são PDFs
+                prefeituraPassos = {};
             }
         }
 
@@ -1095,6 +1111,7 @@
                     else if (!document.getElementById('customPromptModal').classList.contains('hidden')) closeCustomPrompt(false);
                     else if (!document.getElementById('tomadorModal').classList.contains('hidden')) closeTomadorModal();
                     else if (!document.getElementById('clientModal').classList.contains('hidden')) closeModal();
+                    else if (!document.getElementById('passoFullScreenModal').classList.contains('hidden')) closePassoFullScreen();
                 }
             });
         }
@@ -1181,7 +1198,7 @@
                                 infoPrazo = `O vencimento é hoje! (Alvo: ${t.diaFaturamento})`;
                             } else if (st.tipo === 'alerta') {
                                 statusVisual = `<span class="bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400 text-[10px] font-bold px-2 py-0.5 rounded border border-yellow-200 dark:border-yellow-800/50">VENCE EM ${st.diff} DIA(S)</span>`;
-                                infoPrazo = `Atenção: Vence in ${st.diff} dia(s) (Alvo: ${t.diaFaturamento})`;
+                                infoPrazo = `Atenção: Vence em ${st.diff} dia(s) (Alvo: ${t.diaFaturamento})`;
                             }
 
                             content.innerHTML += `
@@ -1410,143 +1427,107 @@
             document.getElementById('summaryModal').classList.add('hidden');
         }
 
-        // --- SISTEMA DE MANUAIS (DROPDOWN CUSTOMIZADO) ---
-        let selectedPrefeitura = "";
-
+        // --- SISTEMA EMBUTIDO DE DROPDOWN (PDF INTEGRADO - LÁPIS E X) ---
         function toggleCustomDropdown() {
-            const list = document.getElementById('customDropdownList');
-            list.classList.toggle('hidden');
+            const drop = document.getElementById('customDropdownMenu');
+            drop.classList.toggle('hidden');
         }
 
-        // Fecha o dropdown se o usuário clicar fora dele
-        window.addEventListener('click', function(e) {
-            const trigger = document.getElementById('customDropdownTrigger');
-            const list = document.getElementById('customDropdownList');
-            if (trigger && !trigger.contains(e.target) && !list.contains(e.target)) {
-                list.classList.add('hidden');
-            }
-        });
-
         function populatePrefeituraDropdowns() {
-            const listContainer = document.getElementById('customDropdownList');
-            if (!listContainer) return;
-            
+            const listContainer = document.getElementById('customDropdownOptionsList');
             listContainer.innerHTML = '';
-            const cities = Object.keys(prefeituraPassos).sort((a, b) => a.localeCompare(b));
-
+            
+            const cities = Object.keys(prefeituraPassos).sort((a,b) => a.localeCompare(b, 'pt-BR', {sensitivity: 'base'}));
+            
             if (cities.length === 0) {
-                listContainer.innerHTML = `<div class="p-2.5 text-xs text-slate-400 italic">Nenhum município cadastrado.</div>`;
+                listContainer.innerHTML = '<div class="p-3 text-center text-xs italic text-slate-400 dark:text-zinc-500">Nenhum município cadastrado.</div>';
+                document.getElementById('customDropdownSelectedText').textContent = "Escolha um Município...";
                 return;
             }
 
             cities.forEach(city => {
-                const itemRow = document.createElement('div');
-                itemRow.className = "flex items-center justify-between px-3 py-2 hover:bg-slate-50 dark:hover:bg-zinc-800 cursor-pointer border-b border-slate-100 dark:border-zinc-800/50 last:border-0";
+                const wrapper = document.createElement('div');
+                wrapper.className = "flex items-center justify-between px-3 py-2 text-xs text-slate-700 dark:text-zinc-300 hover:bg-slate-50 dark:hover:bg-zinc-800/60 cursor-pointer transition-colors group";
                 
-                // Texto do Município
+                // Nome da prefeitura (Ao clicar, abre o visualizador central)
                 const textSpan = document.createElement('span');
-                textSpan.className = "text-xs font-semibold text-slate-800 dark:text-white select-none truncate flex-1 pr-2";
-                textSpan.textContent = city;
-                // Clicar no texto seleciona o item
-                textSpan.onclick = () => selectPrefeituraItem(city);
-
-                // Container dos Botões de Ação (Igual à Imagem)
-                const actionsDiv = document.createElement('div');
-                actionsDiv.className = "flex items-center space-x-2 shrink-0 border-l border-slate-200 dark:border-zinc-700 pl-2";
-
-                // Botão Editar (Ícone de Lápis Azul)
-                const editBtn = document.createElement('button');
-                editBtn.className = "text-blue-500 hover:text-blue-700 p-0.5 transition";
-                editBtn.title = "Editar Manual";
-                editBtn.innerHTML = `<i data-lucide="edit-2" class="w-3.5 h-3.5"></i>`;
-                editBtn.onclick = (e) => {
-                    e.stopPropagation();
-                    editManualContent(city);
+                textSpan.className = "font-medium truncate flex-1 pr-2 py-0.5 flex items-center gap-1.5";
+                textSpan.innerHTML = `<i data-lucide="file-text" class="w-3.5 h-3.5 text-slate-400"></i> ${city}`;
+                textSpan.onclick = () => {
+                    selectManualItem(city);
+                    openPassoAPassoFullScreen();
                 };
 
-                // Botão Excluir (Ícone de X Vermelho)
+                const actionsDiv = document.createElement('div');
+                actionsDiv.className = "flex items-center gap-1.5 opacity-80 group-hover:opacity-100 shrink-0";
+
+                // Botão Lápis (Dispara o carregamento do arquivo PDF)
+                const editBtn = document.createElement('button');
+                editBtn.type = "button";
+                editBtn.className = "p-1 rounded text-blue-600 hover:text-blue-800 hover:bg-blue-50 dark:hover:bg-blue-950/40 transition";
+                editBtn.title = "Carregar/Substituir PDF deste manual";
+                editBtn.innerHTML = '<i data-lucide="edit-3" class="w-3.5 h-3.5"></i>';
+                editBtn.onclick = (e) => {
+                    e.stopPropagation();
+                    selectManualItem(city);
+                    document.getElementById('manualPdfFileInput').click(); // Abre o seletor de arquivos
+                };
+
+                // Botão X (Apagar o registro do manual)
                 const deleteBtn = document.createElement('button');
-                deleteBtn.className = "text-red-500 hover:text-red-700 p-0.5 transition";
-                deleteBtn.title = "Excluir Manual";
-                deleteBtn.innerHTML = `<i data-lucide="x" class="w-4 h-4"></i>`;
+                deleteBtn.type = "button";
+                deleteBtn.className = "p-1 rounded text-red-500 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-950/40 transition";
+                deleteBtn.title = "Excluir este manual";
+                deleteBtn.innerHTML = '<i data-lucide="x" class="w-3.5 h-3.5"></i>';
                 deleteBtn.onclick = (e) => {
                     e.stopPropagation();
-                    deleteManual(city);
+                    selectManualItem(city);
+                    deleteManual();
                 };
 
                 actionsDiv.appendChild(editBtn);
                 actionsDiv.appendChild(deleteBtn);
-                itemRow.appendChild(textSpan);
-                itemRow.appendChild(actionsDiv);
-                listContainer.appendChild(itemRow);
+                wrapper.appendChild(textSpan);
+                wrapper.appendChild(actionsDiv);
+                listContainer.appendChild(wrapper);
             });
+
+            if (selectedManualKey && prefeituraPassos[selectedManualKey]) {
+                document.getElementById('customDropdownSelectedText').textContent = selectedManualKey;
+            } else {
+                selectedManualKey = "";
+                document.getElementById('customDropdownSelectedText').textContent = "Escolha um Município...";
+            }
 
             lucide.createIcons();
         }
 
-        function selectPrefeituraItem(city) {
-            selectedPrefeitura = city;
-            document.getElementById('customDropdownSelectedText').textContent = city;
-            document.getElementById('customDropdownList').classList.add('hidden');
-            
-            // Abre o modal/passo a passo em tela cheia que já existia no seu sistema original
-            openPassoAPassoFullScreen(city); 
-        }
-
-        function editManualContent(city) {
-            // Reaproveita a lógica de prompt existente para renomear ou gerenciar
-            document.getElementById('customPromptTitle').textContent = "Editar Nome do Manual";
-            document.getElementById('customPromptMessage').textContent = `Alterar o nome do portal/município para "${city}":`;
-            document.getElementById('customPromptInput').value = city;
-            document.getElementById('customPromptModal').classList.remove('hidden');
-            
-            promptCallback = (newValue) => {
-                if (newValue && newValue.trim() !== '' && newValue.trim() !== city) {
-                    const cleanValue = newValue.trim();
-                    prefeituraPassos[cleanValue] = prefeituraPassos[city];
-                    delete prefeituraPassos[city];
-                    
-                    // Se o item editado estava selecionado, atualiza a interface
-                    if (selectedPrefeitura === city) {
-                        selectedPrefeitura = cleanValue;
-                        document.getElementById('customDropdownSelectedText').textContent = cleanValue;
-                    }
-                    
-                    saveData();
-                    populatePrefeituraDropdowns();
-                }
-            };
-        }
-
-        function deleteManual(city) {
-            showCustomConfirm('Remover Manual', `Tem a certeza que deseja excluir permanentemente o manual de "${city}"?`, () => {
-                delete prefeituraPassos[city];
-                if (selectedPrefeitura === city) {
-                    selectedPrefeitura = "";
-                    document.getElementById('customDropdownSelectedText').textContent = "Escolha um Município...";
-                }
-                saveData();
-                populatePrefeituraDropdowns();
-                showCustomAlert('Removido', 'Manual excluído com sucesso.');
-            });
+        function selectManualItem(key) {
+            selectedManualKey = key;
+            document.getElementById('customDropdownSelectedText').textContent = key;
+            document.getElementById('customDropdownMenu').classList.add('hidden');
         }
 
         let promptCallback = null;
         function askNewManualName() {
-            document.getElementById('customPromptTitle').textContent = "Novo Manual";
-            document.getElementById('customPromptMessage').textContent = "Digite o nome do Município ou Portal (Ex: Portal Nacional)";
+            document.getElementById('customPromptTitle').textContent = "Novo Manual (PDF)";
+            document.getElementById('customPromptMessage').textContent = "Digite o nome do Município ou Portal (Ex: Campinas/SP)";
             document.getElementById('customPromptInput').value = '';
             document.getElementById('customPromptModal').classList.remove('hidden');
             setTimeout(() => document.getElementById('customPromptInput').focus(), 100);
+            
             promptCallback = (value) => {
                 if (value && value.trim() !== '') {
                     const manualName = value.trim();
                     if (!prefeituraPassos[manualName]) {
-                        prefeituraPassos[manualName] = "Escreva o passo a passo de faturação aqui...";
+                        prefeituraPassos[manualName] = ""; // Inicia em branco esperando upload
                         saveData(); 
-                        populatePrefeituraDropdowns();
                     }
-                    selectPrefeituraItem(manualName);
+                    selectManualItem(manualName);
+                    populatePrefeituraDropdowns();
+                    
+                    // Dispara o upload de PDF automaticamente após criar o nome do município
+                    document.getElementById('manualPdfFileInput').click();
                 }
             };
         }
@@ -1557,11 +1538,83 @@
             promptCallback = null;
         }
 
-        // Simulador da janela cheia do manual (para evitar quebras com funções antigas não mapeadas)
-        function openPassoAPassoFullScreen(city) {
-            if(prefeituraPassos[city]) {
-                showCustomAlert(`S.O.P - ${city}`, prefeituraPassos[city]);
+        // Processa o arquivo PDF transformando em string Base64 para armazenar de forma segura
+        function handleManualPdfUpload(event) {
+            const file = event.target.files[0];
+            if (!file || !selectedManualKey) return;
+
+            if (file.type !== "application/pdf") {
+                showCustomAlert('Erro', 'Por favor, selecione apenas arquivos em formato PDF.');
+                return;
             }
+
+            // Alerta se o arquivo for excessivamente pesado para base de dados (Ex: acima de 4MB)
+            if (file.size > 4 * 1024 * 1024) {
+                showCustomAlert('Arquivo Muito Grande', 'Para garantir uma sincronização ultra rápida entre todos os computadores, escolha um PDF de manual otimizado de até 4MB.');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const base64Data = e.target.result;
+                prefeituraPassos[selectedManualKey] = base64Data; // Armazena a string de dados
+                saveData();
+                populatePrefeituraDropdowns();
+                showCustomAlert('Sucesso', `Arquivo PDF anexado com sucesso ao manual de ${selectedManualKey}!`);
+            };
+            reader.readAsDataURL(file);
+            event.target.value = ''; // Limpa o seletor
+        }
+
+        function deleteManual() {
+            if(!selectedManualKey) return;
+            showCustomConfirm('Apagar Manual', `Pretende realmente remover o registro e o PDF completo de "${selectedManualKey}"?`, () => {
+                delete prefeituraPassos[selectedManualKey];
+                selectedManualKey = "";
+                saveData();
+                populatePrefeituraDropdowns();
+                showCustomAlert('Removido', 'Manual excluído com sucesso!');
+            });
+        }
+
+        function openPassoAPassoFullScreen() {
+            if(!selectedManualKey) return;
+            document.getElementById('passoFullScreenTitle').textContent = `Manual de Operação - ${selectedManualKey}`;
+            
+            const pdfDataUri = prefeituraPassos[selectedManualKey];
+            const iframe = document.getElementById('passoFullScreenIframe');
+            const fallback = document.getElementById('passoNoPdfFallback');
+
+            if (pdfDataUri && pdfDataUri.startsWith('data:application/pdf')) {
+                iframe.src = pdfDataUri;
+                iframe.classList.remove('hidden');
+                fallback.classList.add('hidden');
+            } else {
+                iframe.src = "";
+                iframe.classList.add('hidden');
+                fallback.classList.remove('hidden');
+            }
+
+            document.getElementById('passoFullScreenModal').classList.remove('hidden');
+            lucide.createIcons();
+        }
+
+        function closePassoFullScreen() {
+            document.getElementById('passoFullScreenModal').classList.add('hidden');
+            document.getElementById('passoFullScreenIframe').src = ""; // Reseta para liberar memória
+        }
+
+        // Realiza o download nativo extraindo do binário base64 carregado
+        function downloadActivePdf() {
+            if (!selectedManualKey || !prefeituraPassos[selectedManualKey]) return;
+            const dataUri = prefeituraPassos[selectedManualKey];
+            
+            const link = document.createElement('a');
+            link.href = dataUri;
+            link.download = `Manual_Emissao_${selectedManualKey.replace(/[^a-zA-Z0-9]/g, '_')}.pdf`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
         }
 
         // --- WORKSTATION & EMISSÃO ---
@@ -1807,7 +1860,7 @@
             const municipioVal = document.getElementById('formMunicipio').value;
 
             if (municipioVal && !prefeituraPassos[municipioVal]) {
-                prefeituraPassos[municipioVal] = "Passos de emissão pendentes...";
+                prefeituraPassos[municipioVal] = "";
                 populatePrefeituraDropdowns();
             }
 
@@ -1972,7 +2025,7 @@
             });
         }
 
-        // --- ALERTA, CONFIRMAÇÃO E EXPORTAÇÃO ---
+        // --- ALERTAS E EXPORTAÇÃO ---
         function showCustomAlert(title, message) {
             document.getElementById('customAlertTitle').textContent = title;
             document.getElementById('customAlertMessage').textContent = message;
